@@ -12,6 +12,7 @@
 -- 1 ▸ CHANGE THIS to the email you will sign in with on admin.html
 create or replace function public.portfolio_owner_email()
 returns text language sql immutable as $$ select 'aaolatotse1@gmail.com'::text $$;
+grant execute on function public.portfolio_owner_email() to anon, authenticated;
 
 -- 2 ▸ Events table
 create table if not exists public.site_events (
@@ -62,6 +63,7 @@ create policy "owner can delete events"
 
 -- 4 ▸ Table privileges (belt and braces alongside RLS)
 revoke all on public.site_events from anon, authenticated;
+grant usage on schema public to anon, authenticated;
 grant insert on public.site_events to anon, authenticated;
 grant select, delete on public.site_events to authenticated;
 
