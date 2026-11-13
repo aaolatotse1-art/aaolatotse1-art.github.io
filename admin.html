@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="robots" content="noindex, nofollow, noarchive" />
+  <meta name="theme-color" content="#f3f3f1" />
+  <title>Insights · Private</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    :root{
+      --bg-0:#ffffff; --bg-1:#f3f3f1; --bg-2:#e6e6e3;
+      --ink:#141413; --ink-2:#56554f; --ink-3:#8a8880; --line:rgba(20,20,19,.10); --line-2:rgba(20,20,19,.16);
+      --card:rgba(255,255,255,.78); --grid:#ebebe8;
+      --s1:#2f6fb0; --s2:#d97757;           /* validated series pair (CVD ΔE 18.3) */
+      --up:#3f6b2a; --down:#a64b2a;
+      --display:'Playfair Display', Georgia, serif;
+      --body:-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      --r:14px; --rl:20px; --shadow:0 1px 2px rgba(20,20,19,.04), 0 8px 28px rgba(20,20,19,.07);
+      --t:.25s cubic-bezier(.2,.7,.2,1);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    [hidden]{display:none!important}
+    body{font-family:var(--body);font-size:15px;line-height:1.5;color:var(--ink);min-height:100vh;
+      background:linear-gradient(180deg,var(--bg-0),var(--bg-1) 40%,var(--bg-2)) fixed}
+    h1,h2,h3{font-family:var(--display);font-weight:500;letter-spacing:-.01em;line-height:1.1}
+    a{color:inherit}
+    :focus-visible{outline:3px solid var(--s1);outline-offset:2px;border-radius:8px}
+    .shell{max-width:1240px;margin:0 auto;padding:20px 20px 60px}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--rl);box-shadow:var(--shadow);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:0 16px;border-radius:999px;border:1px solid var(--line-2);background:#fff;color:var(--ink);font:600 .88rem var(--body);cursor:pointer;text-decoration:none;transition:background var(--t),transform var(--t)}
+    .btn:hover{background:#f7f7f5}
+    .btn:active{transform:scale(.97)}
+    .btn-ink{background:var(--ink);color:#fff;border-color:var(--ink)}
+    .btn-ink:hover{background:#2a2a28}
+    .btn[disabled]{opacity:.5;cursor:default}
+    .seg{display:inline-flex;gap:3px;padding:3px;border-radius:999px;background:rgba(20,20,19,.06);border:1px solid var(--line)}
+    .seg button{min-height:34px;padding:0 14px;border:0;border-radius:999px;background:transparent;font:500 .85rem var(--body);color:var(--ink-2);cursor:pointer}
+    .seg button[aria-pressed="true"]{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(20,20,19,.12)}
+
+    /* ── Gate ── */
+    .gate{min-height:calc(100vh - 40px);display:grid;place-items:center}
+    .gate .card{width:min(440px,100%);padding:34px}
+    .gate h1{font-size:2rem;margin:14px 0 8px}
+    .gate p{color:var(--ink-2);font-size:.95rem}
+    .lock{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:var(--ink);color:#fff;font-size:1.1rem}
+    .gate form{display:grid;gap:12px;margin-top:22px}
+    .gate label{font-size:.85rem;font-weight:600;display:grid;gap:6px}
+    input{font:inherit;font-size:1rem;padding:11px 14px;min-height:46px;border:1px solid var(--line-2);border-radius:12px;background:#fff;color:var(--ink)}
+    input:focus{outline:none;border-color:var(--s1);box-shadow:0 0 0 4px rgba(47,111,176,.15)}
+    .msg{font-size:.88rem;color:var(--ink-2);min-height:1.3em}
+    .msg.err{color:var(--down)}
+    .divider{display:flex;align-items:center;gap:12px;color:var(--ink-3);font-size:.8rem;margin:20px 0 14px}
+    .divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--line)}
+    .notice{padding:14px 16px;border-radius:12px;background:rgba(217,119,87,.10);border:1px solid rgba(217,119,87,.3);font-size:.88rem;color:#5a2a18;margin-top:18px}
+    .notice code{font-size:.82rem;background:rgba(255,255,255,.7);padding:1px 5px;border-radius:5px}
+
+    /* ── Top bar ── */
+    .top{position:sticky;top:12px;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:10px 12px 10px 20px;margin-bottom:22px;
+      border-radius:999px;background:rgba(255,255,255,.75);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);border:1px solid var(--line);box-shadow:var(--shadow)}
+    .brand{font-family:var(--display);font-size:1.25rem;font-weight:600;display:flex;align-items:center;gap:10px}
+    .brand span{color:var(--s2)}
+    .brand small{font-family:var(--body);font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);padding:3px 8px;border-radius:6px;background:rgba(20,20,19,.06)}
+    .tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+    .live{display:inline-flex;align-items:center;gap:8px;font-size:.85rem;color:var(--ink-2);cursor:pointer;min-height:40px;padding:0 6px}
+    .live input{appearance:none;width:38px;height:22px;min-height:0;padding:0;border-radius:999px;background:var(--bg-2);position:relative;cursor:pointer;border:0;transition:background var(--t)}
+    .live input::after{content:'';position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:transform var(--t)}
+    .live input:checked{background:var(--up)}
+    .live input:checked::after{transform:translateX(16px)}
+
+    .head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin:8px 4px 22px}
+    .head h1{font-size:clamp(2rem,4vw,2.8rem)}
+    .head h1 em{font-style:italic}
+    .head p{color:var(--ink-2);font-size:.9rem;margin-top:6px}
+    .banner{display:flex;gap:10px;align-items:center;padding:12px 16px;border-radius:14px;background:rgba(217,119,87,.10);border:1px solid rgba(217,119,87,.3);color:#5a2a18;font-size:.9rem;margin-bottom:18px}
+
+    /* ── KPIs ── */
+    .kpis{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:14px}
+    .kpi{padding:18px}
+    .kpi .k{font-size:.8rem;color:var(--ink-2);display:flex;align-items:center;gap:7px}
+    .kpi .v{font-family:var(--display);font-size:2.1rem;font-weight:500;margin:8px 0 4px;font-variant-numeric:tabular-nums;line-height:1}
+    .delta{font-size:.78rem;color:var(--ink-3);font-variant-numeric:tabular-nums}
+    .delta.up{color:var(--up)} .delta.down{color:var(--down)}
+
+    /* KPI tiles use the portfolio's gradient card; numbers sit on a dark glass plate (white ≥ 5.8:1) */
+    .kpi{background-color:#679e31;background-image:linear-gradient(to left bottom,#eeff32,#e6f52b,#ddea25,#d5e01d,#ccd615,#a7c422,#85b12b,#679e31,#337b3a,#0d5637,#063329,#071110);border:0;color:#fff;position:relative;isolation:isolate;backdrop-filter:none}
+    .kpi::before{content:'';position:absolute;inset:5px;border-radius:15px;background:rgba(7,17,16,.62);z-index:-1}
+    .kpi .k{color:rgba(255,255,255,.88)} .kpi .delta{color:rgba(255,255,255,.88)} .kpi .delta.up{color:#eeff32} .kpi .delta.down{color:#ffe4da}
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}
+    .panel{padding:20px 22px;min-width:0}
+    .panel h2{font-size:1.25rem}
+    .panel .sub{font-size:.8rem;color:var(--ink-3);margin-top:2px}
+    .ph{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+    .c8{grid-column:span 8}.c4{grid-column:span 4}.c6{grid-column:span 6}.c12{grid-column:span 12}
+
+    /* line chart */
+    .legend{display:flex;gap:16px;font-size:.82rem;color:var(--ink-2);align-items:center}
+    .legend i{display:inline-block;width:14px;height:3px;border-radius:2px;margin-right:6px;vertical-align:middle}
+    .chart{position:relative}
+    .chart svg{display:block;width:100%;height:260px;overflow:visible}
+    .tip{position:absolute;pointer-events:none;background:#fff;border:1px solid var(--line-2);border-radius:10px;box-shadow:var(--shadow);padding:8px 11px;font-size:.8rem;white-space:nowrap;transform:translate(-50%,-100%);opacity:0;transition:opacity .12s}
+    .tip b{display:block;font-size:.76rem;color:var(--ink-2);font-weight:600;margin-bottom:3px}
+    .tip span{display:flex;align-items:center;gap:6px;font-variant-numeric:tabular-nums}
+    .tip span i{width:8px;height:8px;border-radius:50%}
+    .linkish{background:none;border:0;font:600 .8rem var(--body);color:var(--ink-2);cursor:pointer;text-decoration:underline;min-height:32px}
+
+    /* bar lists */
+    .bars{display:grid;gap:10px}
+    .brow{display:grid;grid-template-columns:minmax(90px,38%) 1fr auto;gap:12px;align-items:center;font-size:.86rem}
+    .brow .lbl{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink)}
+    .brow .track{height:10px;position:relative}
+    .brow .fill{position:absolute;left:0;top:0;bottom:0;transform-origin:0 50%;background:var(--s1);border-radius:0 4px 4px 0;min-width:2px}
+    .brow .num{font-variant-numeric:tabular-nums;color:var(--ink-2);font-size:.82rem;min-width:62px;text-align:right}
+    .empty{font-size:.88rem;color:var(--ink-3);padding:18px 0}
+
+    table{width:100%;border-collapse:collapse;font-size:.85rem}
+    th{font-weight:600;text-align:left;color:var(--ink-2);font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;padding:8px 6px;border-bottom:1px solid var(--line-2)}
+    td{padding:9px 6px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
+    td.r,th.r{text-align:right}
+
+    /* feed */
+    .feed{list-style:none;max-height:440px;overflow:auto;margin:0 -6px}
+    .feed li{display:grid;grid-template-columns:34px 1fr auto;gap:12px;align-items:center;padding:10px 6px;border-bottom:1px solid var(--line)}
+    .feed .ic{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:rgba(20,20,19,.06);font-size:.85rem}
+    .feed .what{font-size:.88rem}
+    .feed .meta{font-size:.76rem;color:var(--ink-3)}
+    .feed time{font-size:.76rem;color:var(--ink-3);white-space:nowrap}
+    .vchip{font:600 .74rem ui-monospace,SFMono-Regular,Menlo,monospace;padding:2px 7px;border-radius:6px;background:rgba(47,111,176,.10);color:#234f80;border:0;cursor:pointer}
+    .vchip:hover{background:rgba(47,111,176,.2)}
+    .filterchip{display:inline-flex;gap:8px;align-items:center;font-size:.8rem;padding:4px 6px 4px 10px;border-radius:999px;background:rgba(47,111,176,.10);color:#234f80}
+    .filterchip button{border:0;background:#fff;border-radius:50%;width:24px;height:24px;cursor:pointer}
+    .new{animation:flash 1.6s ease}
+    @keyframes flash{from{background:rgba(217,119,87,.18)}to{background:transparent}}
+    .foot{margin-top:24px;font-size:.8rem;color:var(--ink-3);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+    @media (max-width:1100px){ .kpis{grid-template-columns:repeat(3,1fr)} .c8,.c4,.c6{grid-column:span 12} }
+    @media (max-width:640px){ .kpis{grid-template-columns:repeat(2,1fr)} .top{border-radius:22px} .shell{padding:12px 12px 40px} .brow{grid-template-columns:minmax(80px,40%) 1fr auto} .seg{max-width:100%;overflow-x:auto;scrollbar-width:none} .seg button{flex-shrink:0} }
+    @media (prefers-reduced-motion:reduce){ *{transition-duration:.01ms!important;animation-duration:.01ms!important} }
+  </style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- ══ SIGN-IN GATE ══ -->
+  <section class="gate" id="gate">
+    <div class="card">
+      <div class="lock" aria-hidden="true"><i class="fa-solid fa-lock"></i></div>
+      <h1>Private insights</h1>
+      <p>Visitor activity for your portfolio. Only your account can see this data.</p>
+
+      <form id="loginForm" hidden>
+        <label>Email<input type="email" id="email" autocomplete="email" required placeholder="you@example.com" /></label>
+        <button class="btn btn-ink" type="submit" id="sendBtn"><i class="fa-solid fa-envelope" aria-hidden="true"></i> Email me a sign-in link</button>
+        <p class="msg" id="loginMsg" role="status"></p>
+      </form>
+
+      <div class="notice" id="notConfigured" hidden>
+        Analytics isn't connected yet. Add your Supabase URL and key to <code>admin.html</code> and <code>index.html</code> — the README walks you through it.
+      </div>
+
+      <div class="divider">or</div>
+      <button class="btn" type="button" id="demoBtn" style="width:100%"><i class="fa-solid fa-flask" aria-hidden="true"></i> Preview with sample data</button>
+      <p class="msg" style="margin-top:14px;text-align:center"><a href="index.html">← Back to the portfolio</a></p>
+    </div>
+  </section>
+
+  <!-- ══ DASHBOARD ══ -->
+  <div id="dash" hidden>
+    <header class="top">
+      <div class="brand"><b style="font-weight:600">AO<span>.</span></b> Insights <small>Private</small></div>
+      <div class="tools">
+        <div class="seg" role="group" aria-label="Date range" id="range">
+          <button type="button" data-days="1" aria-pressed="false">24h</button>
+          <button type="button" data-days="7" aria-pressed="true">7 days</button>
+          <button type="button" data-days="30" aria-pressed="false">30 days</button>
+          <button type="button" data-days="90" aria-pressed="false">90 days</button>
+        </div>
+        <label class="live" title="Show new visits as they happen"><input type="checkbox" id="liveToggle" checked /> Live</label>
+        <button class="btn" type="button" id="refreshBtn" aria-label="Refresh"><i class="fa-solid fa-rotate-right" aria-hidden="true"></i></button>
+        <button class="btn" type="button" id="csvBtn"><i class="fa-solid fa-file-csv" aria-hidden="true"></i> Export</button>
+        <button class="btn" type="button" id="signOutBtn"><i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i> Sign out</button>
+      </div>
+    </header>
+
+    <div class="banner" id="demoBanner" hidden><i class="fa-solid fa-flask" aria-hidden="true"></i> Sample data — these are not real visits. Sign in to see your own numbers.</div>
+
+    <div class="head">
+      <div>
+        <h1>Who's been <em>looking.</em></h1>
+        <p id="rangeLabel">Last 7 days</p>
+      </div>
+      <p id="updated" style="font-size:.82rem;color:var(--ink-3)"></p>
+    </div>
+
+    <div class="kpis" id="kpis"></div>
+
+    <div class="grid">
+      <section class="panel card c8" aria-labelledby="tsTitle">
+        <div class="ph">
+          <div><h2 id="tsTitle">Traffic over time</h2><div class="sub" id="tsSub">Unique visitors and page views</div></div>
+          <div style="display:flex;gap:14px;align-items:center">
+            <div class="legend"><span><i style="background:var(--s1)"></i>Visitors</span><span><i style="background:var(--s2)"></i>Page views</span></div>
+            <button class="linkish" type="button" id="tsTableBtn" aria-expanded="false">Table</button>
+          </div>
+        </div>
+        <div class="chart" id="tsChart"></div>
+        <div id="tsTable" hidden style="max-height:260px;overflow:auto"></div>
+      </section>
+
+      <section class="panel card c4" aria-labelledby="reachTitle">
+        <div class="ph"><div><h2 id="reachTitle">Section reach</h2><div class="sub">Share of sessions that scrolled to each section</div></div></div>
+        <div class="bars" id="reach"></div>
+      </section>
+
+      <section class="panel card c4" aria-labelledby="srcTitle">
+        <div class="ph"><div><h2 id="srcTitle">Where they came from</h2><div class="sub">Sessions by referrer or campaign</div></div></div>
+        <div class="bars" id="sources"></div>
+      </section>
+
+      <section class="panel card c4" aria-labelledby="actTitle">
+        <div class="ph"><div><h2 id="actTitle">What they clicked</h2><div class="sub">Résumé, GitHub, contact and links</div></div></div>
+        <div id="actions"></div>
+      </section>
+
+      <section class="panel card c4" aria-labelledby="geoTitle">
+        <div class="ph"><div><h2 id="geoTitle">Approximate location</h2><div class="sub">From the browser's time zone — not exact</div></div></div>
+        <div class="bars" id="geo"></div>
+      </section>
+
+      <section class="panel card c6" aria-labelledby="techTitle">
+        <div class="ph">
+          <div><h2 id="techTitle">Devices &amp; browsers</h2><div class="sub">Unique visitors</div></div>
+          <div class="seg" role="group" aria-label="Technology breakdown" id="techSeg">
+            <button type="button" data-k="device" aria-pressed="true">Device</button>
+            <button type="button" data-k="browser" aria-pressed="false">Browser</button>
+            <button type="button" data-k="os" aria-pressed="false">OS</button>
+          </div>
+        </div>
+        <div class="bars" id="tech"></div>
+      </section>
+
+      <section class="panel card c6" aria-labelledby="feedTitle">
+        <div class="ph">
+          <div><h2 id="feedTitle">Activity</h2><div class="sub">Latest events · select a visitor ID to follow their visit</div></div>
+          <span class="filterchip" id="visitorFilter" hidden></span>
+        </div>
+        <ol class="feed" id="feed" aria-live="polite"></ol>
+      </section>
+    </div>
+
+    <div class="foot">
+      <span id="whoami"></span>
+      <label class="live" style="padding:0"><input type="checkbox" id="excludeMe" /> Don't count my own visits on this browser</label>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ CONFIGURATION — same values as index.html ═══ -->
+<script>
+  window.ADMIN_CONFIG = {
+    supabaseUrl: "",         // e.g. https://abcd1234.supabase.co
+    supabaseAnonKey: "",     // public anon / publishable key (never the service_role key)
+    ownerEmail: "aaolatotse1@gmail.com"  // must match portfolio_owner_email() in supabase/setup.sql
+  };
+</script>
+
+<script type="module">
+const C = window.ADMIN_CONFIG;
+const $ = (s, el = document) => el.querySelector(s), $$ = (s, el = document) => [...el.querySelectorAll(s)];
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+const nf = new Intl.NumberFormat('en');
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+let anime = null;
+import('https://cdn.jsdelivr.net/npm/animejs@4.5.0/dist/bundles/anime.esm.min.js').then(m => anime = m).catch(() => {});
+
+const configured = !!(C.supabaseUrl && C.supabaseAnonKey);
+let sb = null, mode = null, days = 7, events = [], techKey = 'device', visitorFilter = null, channel = null, pollTimer = null;
+
+/* ─────────── Gate ─────────── */
+$('#excludeMe').checked = localStorage.getItem('ao_owner') === '1';
+$('#excludeMe').addEventListener('change', e => e.target.checked ? localStorage.setItem('ao_owner', '1') : localStorage.removeItem('ao_owner'));
+$('#demoBtn').addEventListener('click', () => start('demo'));
+
+if (!configured) {
+  $('#notConfigured').hidden = false;
+} else {
+  $('#loginForm').hidden = false;
+  try {
+    const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
+    sb = createClient(C.supabaseUrl, C.supabaseAnonKey, { auth: { persistSession: true, detectSessionInUrl: true, flowType: 'implicit' } });
+    const { data: { session } } = await sb.auth.getSession();
+    if (session) onSession(session);
+    sb.auth.onAuthStateChange((evt, s) => { if (evt === 'SIGNED_IN' && s && mode !== 'live') onSession(s); if (evt === 'SIGNED_OUT') location.reload(); });
+  } catch (e) {
+    $('#loginMsg').textContent = 'Could not load the sign-in service. Check your connection and refresh.'; $('#loginMsg').classList.add('err');
+  }
+  $('#loginForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const email = $('#email').value.trim(), msg = $('#loginMsg'), btn = $('#sendBtn');
+    msg.classList.remove('err');
+    if (!$('#email').checkValidity()) { msg.textContent = 'Enter the email address on your account.'; msg.classList.add('err'); return; }
+    btn.disabled = true; msg.textContent = 'Sending…';
+    const { error } = await sb.auth.signInWithOtp({ email, options: { shouldCreateUser: false, emailRedirectTo: location.origin + location.pathname } });
+    btn.disabled = false;
+    if (error) { msg.textContent = /signups|not found|Signups/i.test(error.message) ? 'That email has no access to this dashboard.' : 'Could not send the link: ' + error.message; msg.classList.add('err'); }
+    else msg.textContent = 'Check your inbox — the link signs you in on this browser.';
+  });
+}
+
+function onSession(session) {
+  const email = (session.user?.email || '').toLowerCase();
+  if (email !== C.ownerEmail.toLowerCase()) {
+    $('#loginMsg').textContent = `${email} doesn't have access. Signing out…`; $('#loginMsg').classList.add('err');
+    setTimeout(() => sb.auth.signOut(), 1500); return;
+  }
+  localStorage.setItem('ao_owner', '1'); $('#excludeMe').checked = true;
+  $('#whoami').textContent = 'Signed in as ' + email;
+  start('live');
+}
+
+$('#signOutBtn').addEventListener('click', async () => { if (mode === 'live' && sb) await sb.auth.signOut(); location.href = location.pathname; });
+
+/* ─────────── Data ─────────── */
+async function fetchEvents() {
+  const since = new Date(Date.now() - days * 2 * 864e5).toISOString(); // current + previous period
+  if (mode === 'demo') return demoEvents.filter(e => e.created_at >= since);
+  const out = [], page = 1000;
+  for (let from = 0; from < 50000; from += page) {
+    const { data, error } = await sb.from('site_events').select('*').gte('created_at', since).order('created_at', { ascending: false }).range(from, from + page - 1);
+    if (error) throw error;
+    out.push(...data); if (data.length < page) break;
+  }
+  return out;
+}
+
+async function load() {
+  $('#refreshBtn').disabled = true;
+  try {
+    events = await fetchEvents();
+    render();
+    $('#updated').textContent = 'Updated ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  } catch (e) {
+    $('#updated').textContent = 'Could not load data: ' + (e.message || e);
+  } finally { $('#refreshBtn').disabled = false; }
+}
+
+function start(m) {
+  mode = m;
+  $('#gate').hidden = true; $('#dash').hidden = false;
+  $('#demoBanner').hidden = m !== 'demo';
+  if (m === 'demo') { $('#whoami').textContent = 'Preview mode'; $('#signOutBtn').innerHTML = '<i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Exit preview'; }
+  load(); setLive($('#liveToggle').checked);
+}
+
+function setLive(on) {
+  clearInterval(pollTimer); pollTimer = null;
+  if (channel) { sb.removeChannel(channel); channel = null; }
+  if (!on) return;
+  if (mode === 'live') {
+    try {
+      channel = sb.channel('site_events_live').on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'site_events' }, p => { events.unshift(p.new); render(p.new.id); }).subscribe();
+    } catch (e) {}
+    pollTimer = setInterval(load, 30000);
+  } else {
+    pollTimer = setInterval(() => { const e = demoEvent(new Date()); demoEvents.unshift(e); events.unshift(e); render(e.id); }, 6000);
+  }
+}
+$('#liveToggle').addEventListener('change', e => setLive(e.target.checked));
+$('#refreshBtn').addEventListener('click', load);
+$$('#range button').forEach(b => b.addEventListener('click', () => {
+  $$('#range button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+  days = +b.dataset.days; load();
+}));
+$$('#techSeg button').forEach(b => b.addEventListener('click', () => {
+  $$('#techSeg button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+  techKey = b.dataset.k; renderTech(current());
+}));
+
+/* ─────────── Aggregation ─────────── */
+const cutoff = () => Date.now() - days * 864e5;
+const current = () => events.filter(e => +new Date(e.created_at) >= cutoff());
+const previous = () => events.filter(e => { const t = +new Date(e.created_at); return t < cutoff() && t >= cutoff() - days * 864e5; });
+const uniq = (arr, k) => new Set(arr.map(e => e[k])).size;
+const count = (arr, type) => arr.filter(e => e.event_type === type).length;
+
+function metrics(list) {
+  const leaves = list.filter(e => e.event_type === 'page_leave' && e.value > 0);
+  return {
+    visitors: uniq(list, 'visitor_id'),
+    newVisitors: new Set(list.filter(e => e.event_type === 'pageview' && e.is_new_visitor).map(e => e.visitor_id)).size,
+    sessions: uniq(list, 'session_id'),
+    pageviews: count(list, 'pageview'),
+    avgTime: leaves.length ? leaves.reduce((s, e) => s + e.value, 0) / leaves.length : 0,
+    resume: count(list, 'resume_download') + count(list, 'resume_view'),
+    github: count(list, 'github_click'),
+    contact: count(list, 'contact_submit') + count(list, 'contact_click')
+  };
+}
+const fmtTime = s => s >= 60 ? `${Math.floor(s / 60)}m ${String(Math.round(s % 60)).padStart(2, '0')}s` : `${Math.round(s)}s`;
+
+/* ─────────── Render ─────────── */
+function render(newId) {
+  const cur = current(), prev = previous(), m = metrics(cur), p = metrics(prev);
+  $('#rangeLabel').textContent = days === 1 ? 'Last 24 hours' : `Last ${days} days`;
+  renderKPIs(m, p); renderSeries(cur); renderReach(cur); renderSources(cur); renderActions(cur); renderGeo(cur); renderTech(cur); renderFeed(cur, newId);
+}
+
+function renderKPIs(m, p) {
+  const tiles = [
+    ['Visitors', 'fa-user-group', m.visitors, p.visitors, nf.format],
+    ['New visitors', 'fa-user-plus', m.newVisitors, p.newVisitors, nf.format],
+    ['Page views', 'fa-eye', m.pageviews, p.pageviews, nf.format],
+    ['Avg. time on page', 'fa-clock', m.avgTime, p.avgTime, fmtTime],
+    ['Résumé opens', 'fa-file-arrow-down', m.resume, p.resume, nf.format],
+    ['GitHub clicks', 'fa-code-branch', m.github, p.github, nf.format]
+  ];
+  const first = !$('#kpis').children.length;
+  $('#kpis').innerHTML = tiles.map(([k, ic, v, pv, f]) => {
+    let d = '<span class="delta">No earlier data</span>';
+    if (pv > 0) { const pct = Math.round((v - pv) / pv * 100);
+      d = `<span class="delta ${pct > 0 ? 'up' : pct < 0 ? 'down' : ''}">${pct > 0 ? '▲ ' : pct < 0 ? '▼ ' : ''}${Math.abs(pct)}% ${pct > 0 ? 'up' : pct < 0 ? 'down' : 'no change'} vs previous</span>`; }
+    else if (v > 0) d = '<span class="delta">New this period</span>';
+    return `<div class="kpi card"><div class="k"><i class="fa-solid ${ic}" aria-hidden="true"></i>${k}</div><div class="v" data-v="${v}" data-f="${f === fmtTime ? 't' : 'n'}">${f(v)}</div>${d}</div>`;
+  }).join('');
+  if (first && anime && !reduce) {
+    anime.animate($$('#kpis .kpi'), { opacity: [0, 1], y: [12, 0], duration: 700, delay: anime.stagger(60), ease: 'outExpo' });
+    $$('#kpis .v').forEach(el => { const o = { v: 0 }, to = +el.dataset.v, f = el.dataset.f === 't' ? fmtTime : (x => nf.format(Math.round(x)));
+      anime.animate(o, { v: to, duration: 1100, ease: 'outQuart', onUpdate: () => el.textContent = f(o.v) }); });
+  }
+}
+
+/* Time series: hourly for 24h, daily otherwise */
+function buckets(list) {
+  const hourly = days === 1, step = hourly ? 36e5 : 864e5;
+  const end = new Date(); if (hourly) end.setMinutes(0, 0, 0); else end.setHours(0, 0, 0, 0);
+  const n = hourly ? 24 : days, out = [];
+  for (let i = n - 1; i >= 0; i--) out.push({ t: +end - i * step, v: new Set(), pv: 0 });
+  const startT = out[0].t;
+  list.forEach(e => { const t = +new Date(e.created_at); if (t < startT) return;
+    const i = Math.min(out.length - 1, Math.floor((t - startT) / step)); out[i].v.add(e.visitor_id); if (e.event_type === 'pageview') out[i].pv++; });
+  return out.map(b => ({ t: b.t, visitors: b.v.size, pageviews: b.pv, label: hourly
+    ? new Date(b.t).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    : new Date(b.t).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }) }));
+}
+function niceMax(v) { if (v <= 4) return 4; const p = 10 ** Math.floor(Math.log10(v)), r = v / p; return (r <= 2 ? 2 : r <= 5 ? 5 : 10) * p; }
+
+function renderSeries(list) {
+  const data = buckets(list), el = $('#tsChart');
+  $('#tsSub').textContent = days === 1 ? 'Unique visitors and page views per hour' : 'Unique visitors and page views per day';
+  const W = Math.max(300, Math.round(el.getBoundingClientRect().width) || 700), H = 260, L = 36, R = 12, T = 12, B = 28;
+  const max = niceMax(Math.max(1, ...data.map(d => Math.max(d.visitors, d.pageviews))));
+  const x = i => L + (data.length === 1 ? (W - L - R) / 2 : i * (W - L - R) / (data.length - 1));
+  const y = v => T + (H - T - B) * (1 - v / max);
+  const path = k => data.map((d, i) => `${i ? 'L' : 'M'}${x(i).toFixed(1)},${y(d[k]).toFixed(1)}`).join('');
+  const area = k => `${path(k)}L${x(data.length - 1).toFixed(1)},${y(0)}L${x(0).toFixed(1)},${y(0)}Z`;
+  const ticks = [0, max / 4, max / 2, 3 * max / 4, max];
+  const every = Math.ceil(data.length / Math.max(2, Math.floor((W - L) / 70)));
+  const last = data[data.length - 1];
+  el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Line chart of visitors and page views. Totals in the table view.">
+    ${ticks.map(t => `<line x1="${L}" x2="${W - R}" y1="${y(t)}" y2="${y(t)}" stroke="var(--grid)" stroke-width="1"/><text x="${L - 8}" y="${y(t) + 4}" text-anchor="end" font-size="11" fill="var(--ink-3)">${nf.format(t)}</text>`).join('')}
+    ${data.map((d, i) => i % every === 0 || i === data.length - 1 ? `<text x="${x(i)}" y="${H - 8}" text-anchor="middle" font-size="11" fill="var(--ink-3)">${esc(d.label)}</text>` : '').join('')}
+    <path d="${area('pageviews')}" fill="var(--s2)" opacity=".10"/>
+    <path class="ln" d="${path('pageviews')}" fill="none" stroke="var(--s2)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <path class="ln" d="${path('visitors')}" fill="none" stroke="var(--s1)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <circle cx="${x(data.length - 1)}" cy="${y(last.pageviews)}" r="4.5" fill="var(--s2)" stroke="#fff" stroke-width="2"/>
+    <circle cx="${x(data.length - 1)}" cy="${y(last.visitors)}" r="4.5" fill="var(--s1)" stroke="#fff" stroke-width="2"/>
+    <g id="hover" opacity="0"><line id="hx" y1="${T}" y2="${H - B}" stroke="var(--ink-3)" stroke-width="1"/>
+      <circle id="hp" r="5" fill="var(--s2)" stroke="#fff" stroke-width="2"/><circle id="hv" r="5" fill="var(--s1)" stroke="#fff" stroke-width="2"/></g>
+    <rect x="${L}" y="${T}" width="${W - L - R}" height="${H - T - B}" fill="transparent" id="hit"/>
+  </svg><div class="tip" id="tip"></div>`;
+  const svg = $('svg', el), tip = $('#tip', el), g = $('#hover', el);
+  const move = ev => {
+    const r = svg.getBoundingClientRect(), px = (ev.touches ? ev.touches[0].clientX : ev.clientX) - r.left, sx = px * W / r.width;
+    const i = Math.max(0, Math.min(data.length - 1, Math.round((sx - L) / ((W - L - R) / Math.max(1, data.length - 1))))), d = data[i];
+    g.setAttribute('opacity', 1); $('#hx', el).setAttribute('x1', x(i)); $('#hx', el).setAttribute('x2', x(i));
+    $('#hv', el).setAttribute('cx', x(i)); $('#hv', el).setAttribute('cy', y(d.visitors)); $('#hp', el).setAttribute('cx', x(i)); $('#hp', el).setAttribute('cy', y(d.pageviews));
+    tip.innerHTML = `<b>${esc(d.label)}</b><span><i style="background:var(--s1)"></i>${d.visitors} visitors</span><span><i style="background:var(--s2)"></i>${d.pageviews} page views</span>`;
+    tip.style.left = (x(i) * r.width / W) + 'px'; tip.style.top = (Math.min(y(d.visitors), y(d.pageviews)) * r.height / H - 10) + 'px'; tip.style.opacity = 1;
+  };
+  const hit = $('#hit', el);
+  hit.addEventListener('mousemove', move); hit.addEventListener('touchmove', move, { passive: true });
+  hit.addEventListener('mouseleave', () => { g.setAttribute('opacity', 0); tip.style.opacity = 0; });
+  if (anime && !reduce && !el.dataset.drawn) { el.dataset.drawn = 1;
+    try { anime.animate(anime.createDrawable($$('.ln', el)), { draw: ['0 0', '0 1'], duration: 1400, ease: 'inOutQuad', delay: anime.stagger(150) }); } catch (e) {} }
+  $('#tsTable').innerHTML = `<table><thead><tr><th>${days === 1 ? 'Hour' : 'Day'}</th><th class="r">Visitors</th><th class="r">Page views</th></tr></thead><tbody>${data.slice().reverse().map(d => `<tr><td>${esc(d.label)}</td><td class="r">${d.visitors}</td><td class="r">${d.pageviews}</td></tr>`).join('')}</tbody></table>`;
+}
+$('#tsTableBtn').addEventListener('click', e => { const t = $('#tsTable'), open = t.hidden; t.hidden = !open; $('#tsChart').hidden = open; e.target.textContent = open ? 'Chart' : 'Table'; e.target.setAttribute('aria-expanded', String(open)); });
+let rT, lastW = 0; new ResizeObserver(([e]) => { const w = Math.round(e.contentRect.width); if (!w || Math.abs(w - lastW) < 4) return; lastW = w; clearTimeout(rT); rT = setTimeout(() => events.length && renderSeries(current()), 120); }).observe($('#tsChart'));
+
+function bars(el, rows, fmt = v => nf.format(v), empty = 'No data in this period yet.') {
+  if (!rows.length) { el.innerHTML = `<p class="empty">${empty}</p>`; return; }
+  const max = Math.max(...rows.map(r => r.v), 1);
+  el.innerHTML = rows.map(r => `<div class="brow" title="${esc(r.k)}: ${esc(fmt(r.v))}"><span class="lbl">${esc(r.k)}</span><span class="track"><span class="fill" style="width:${(r.v / max * 100).toFixed(1)}%"></span></span><span class="num">${fmt(r.v)}</span></div>`).join('');
+  if (anime && !reduce) anime.animate($$('.fill', el), { scaleX: [0, 1], duration: 800, delay: anime.stagger(40), ease: 'outExpo' });
+}
+const topN = (map, n = 7) => [...map.entries()].sort((a, b) => b[1] - a[1]).slice(0, n).map(([k, v]) => ({ k, v }));
+
+const SECTIONS = [['hero', 'Intro'], ['about', 'About'], ['work', 'Projects'], ['github', 'GitHub'], ['walkthroughs', 'Walkthroughs'], ['resume', 'Résumé'], ['contact', 'Contact']];
+function renderReach(list) {
+  const sessions = new Set(list.filter(e => e.event_type === 'pageview').map(e => e.session_id));
+  const rows = SECTIONS.map(([id, name]) => ({ k: name, v: sessions.size ? new Set(list.filter(e => e.event_type === 'section_view' && e.section === id && sessions.has(e.session_id)).map(e => e.session_id)).size / sessions.size * 100 : 0 }));
+  bars($('#reach'), sessions.size ? rows : [], v => Math.round(v) + '%');
+}
+function renderSources(list) {
+  const m = new Map();
+  list.filter(e => e.event_type === 'pageview').forEach(e => {
+    const k = e.utm_source ? `${e.utm_source} (campaign)` : (e.referrer || 'Direct / unknown').replace(/^www\./, '').replace(/^(l|lm)\.linkedin\.com$/, 'linkedin.com');
+    m.set(k, (m.get(k) || 0) + 1);
+  });
+  bars($('#sources'), topN(m));
+}
+const ACTION_NAMES = { resume_download: 'Downloaded résumé', resume_view: 'Opened résumé PDF', github_click: 'GitHub', contact_click: 'Contact details', contact_submit: 'Sent a message', social_click: 'Social link', project_open: 'Opened project notes', certificate_open: 'Opened certificate', video_play: 'Played video', project_expand: 'Read project', resume_tab: 'Résumé tab', filter_projects: 'Filtered projects' };
+function renderActions(list) {
+  const m = new Map();
+  list.filter(e => ACTION_NAMES[e.event_type]).forEach(e => {
+    const k = e.event_type + '|' + (e.label || ''); m.set(k, (m.get(k) || 0) + 1);
+  });
+  const rows = topN(m, 8);
+  $('#actions').innerHTML = rows.length ? `<table><thead><tr><th>Action</th><th>Detail</th><th class="r">Count</th></tr></thead><tbody>${rows.map(r => { const [t, l] = r.k.split('|');
+    return `<tr><td>${esc(ACTION_NAMES[t])}</td><td style="color:var(--ink-2)">${esc(l.replace(/_/g, ' '))}</td><td class="r">${r.v}</td></tr>`; }).join('')}</tbody></table>` : '<p class="empty">No clicks recorded in this period yet.</p>';
+}
+const TZ = { 'Africa/Gaborone': 'Botswana', 'Africa/Johannesburg': 'South Africa', 'Africa/Maputo': 'Mozambique', 'Africa/Windhoek': 'Namibia', 'Africa/Harare': 'Zimbabwe', 'Africa/Lusaka': 'Zambia', 'Africa/Nairobi': 'Kenya', 'Africa/Lagos': 'Nigeria', 'Africa/Accra': 'Ghana', 'Africa/Cairo': 'Egypt', 'Africa/Maseru': 'Lesotho', 'Africa/Mbabane': 'Eswatini', 'Europe/London': 'United Kingdom', 'Europe/Dublin': 'Ireland', 'Europe/Berlin': 'Germany', 'Europe/Paris': 'France', 'Europe/Amsterdam': 'Netherlands', 'Asia/Dubai': 'UAE', 'Asia/Kolkata': 'India', 'Asia/Calcutta': 'India', 'Asia/Singapore': 'Singapore', 'Australia/Sydney': 'Australia', 'America/Toronto': 'Canada', 'America/New_York': 'United States (East)', 'America/Chicago': 'United States (Central)', 'America/Denver': 'United States (Mountain)', 'America/Los_Angeles': 'United States (West)' };
+function renderGeo(list) {
+  const m = new Map(), seen = new Set();
+  list.forEach(e => { if (seen.has(e.visitor_id) || !e.timezone) return; seen.add(e.visitor_id); const k = TZ[e.timezone] || e.timezone.replace(/_/g, ' '); m.set(k, (m.get(k) || 0) + 1); });
+  bars($('#geo'), topN(m));
+}
+function renderTech(list) {
+  const m = new Map(), seen = new Set();
+  list.forEach(e => { if (seen.has(e.visitor_id)) return; seen.add(e.visitor_id); const k = e[techKey] || 'Unknown'; m.set(k, (m.get(k) || 0) + 1); });
+  bars($('#tech'), topN(m));
+}
+
+const SECTION_NAME = Object.fromEntries(SECTIONS);
+const ICON = { pageview: 'fa-door-open', section_view: 'fa-eye', page_leave: 'fa-right-from-bracket', resume_download: 'fa-file-arrow-down', resume_view: 'fa-file-lines', resume_tab: 'fa-table-columns', github_click: 'fa-code-branch', project_open: 'fa-folder-open', project_expand: 'fa-book-open', filter_projects: 'fa-filter', certificate_open: 'fa-award', contact_click: 'fa-address-card', contact_submit: 'fa-paper-plane', social_click: 'fa-share-nodes', video_play: 'fa-play' };
+function describe(e) {
+  const l = esc((e.label || '').replace(/_/g, ' '));
+  switch (e.event_type) {
+    case 'pageview': return `Arrived${e.referrer ? ' from <strong>' + esc(e.referrer) + '</strong>' : ''}${e.is_new_visitor ? ' · first visit' : ' · returning'}`;
+    case 'section_view': return `Viewed <strong>${esc(SECTION_NAME[e.section] || e.section)}</strong>`;
+    case 'page_leave': return `Left after <strong>${fmtTime(e.value || 0)}</strong>`;
+    case 'github_click': return `Opened GitHub <strong>${l}</strong>`;
+    case 'resume_download': return `<strong>Downloaded résumé</strong>`;
+    case 'resume_view': return `<strong>Opened résumé PDF</strong>`;
+    case 'resume_tab': return `Résumé tab <strong>${l}</strong>`;
+    case 'contact_submit': return `<strong>Started an email to you</strong>`;
+    case 'contact_click': return `Clicked your <strong>${l}</strong>`;
+    case 'filter_projects': return `Filtered projects: <strong>${l}</strong>`;
+    case 'project_expand': return `Read more on <strong>${l}</strong>`;
+    default: return `${esc(ACTION_NAMES[e.event_type] || e.event_type)} <strong>${l}</strong>`;
+  }
+}
+const ago = iso => { const s = (Date.now() - new Date(iso)) / 1000; if (s < 60) return 'just now'; if (s < 3600) return Math.floor(s / 60) + ' min ago'; if (s < 86400) return Math.floor(s / 3600) + ' h ago';
+  return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }) + ' ' + new Date(iso).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); };
+function renderFeed(list, newId) {
+  let rows = list; if (visitorFilter) rows = rows.filter(e => e.visitor_id === visitorFilter);
+  rows = rows.slice(0, visitorFilter ? 200 : 60);
+  const chip = $('#visitorFilter');
+  if (visitorFilter) { chip.hidden = false; chip.innerHTML = `Visitor ${esc(visitorFilter.slice(0, 4))} · ${rows.length} events <button type="button" aria-label="Show all visitors">✕</button>`; chip.querySelector('button').onclick = () => { visitorFilter = null; renderFeed(current()); }; }
+  else chip.hidden = true;
+  $('#feed').innerHTML = rows.length ? rows.map(e => `<li${e.id === newId ? ' class="new"' : ''}>
+      <span class="ic" aria-hidden="true"><i class="fa-solid ${ICON[e.event_type] || 'fa-circle'}"></i></span>
+      <div><div class="what">${describe(e)}</div><div class="meta"><button class="vchip" type="button" data-v="${esc(e.visitor_id)}" aria-label="Follow visitor ${esc(e.visitor_id.slice(0, 4))}">${esc(e.visitor_id.slice(0, 4))}</button> · ${esc(e.device || '')} · ${esc(e.browser || '')} · ${esc(TZ[e.timezone] || e.timezone || '')}</div></div>
+      <time datetime="${esc(e.created_at)}">${ago(e.created_at)}</time></li>`).join('') : '<li><p class="empty">No activity in this period yet. Visits appear here within seconds.</p></li>';
+  $$('#feed .vchip').forEach(b => b.onclick = () => { visitorFilter = b.dataset.v; renderFeed(current()); });
+}
+
+/* ─────────── CSV export ─────────── */
+$('#csvBtn').addEventListener('click', () => {
+  const rows = current(); if (!rows.length) return;
+  const cols = ['created_at', 'event_type', 'visitor_id', 'session_id', 'is_new_visitor', 'section', 'label', 'value', 'referrer', 'utm_source', 'utm_campaign', 'device', 'browser', 'os', 'screen', 'language', 'timezone', 'path'];
+  const q = v => { const s = String(v ?? ''); return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; };
+  const csv = [cols.join(','), ...rows.map(r => cols.map(c => q(r[c])).join(','))].join('\n');
+  const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(new Blob([csv], { type: 'text/csv' })), download: `portfolio-visits-${days}d-${new Date().toISOString().slice(0, 10)}.csv` });
+  a.click(); URL.revokeObjectURL(a.href);
+});
+
+/* ─────────── Sample data (preview only) ─────────── */
+function rnd(seed) { return () => (seed = (seed * 16807) % 2147483647) / 2147483647; }
+const R = rnd(42), pick = (arr, w) => { let x = R() * w.reduce((a, b) => a + b, 0); for (let i = 0; i < arr.length; i++) { x -= w[i]; if (x <= 0) return arr[i]; } return arr[0]; };
+const uid = () => 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => { const r = R() * 16 | 0; return (c === 'x' ? r : (r & 3 | 8)).toString(16); });
+const visitorPool = Array.from({ length: 1400 }, () => ({ id: uid(), device: pick(['Desktop', 'Mobile', 'Tablet'], [55, 40, 5]), browser: pick(['Chrome', 'Safari', 'Edge', 'Firefox', 'Samsung Internet'], [52, 24, 14, 5, 5]),
+  tz: pick(['Africa/Gaborone', 'Africa/Johannesburg', 'Africa/Windhoek', 'Africa/Maputo', 'Europe/London', 'America/New_York', 'Asia/Kolkata'], [46, 24, 6, 5, 9, 6, 4]) }));
+visitorPool.forEach(v => v.os = v.device === 'Desktop' ? pick(['Windows', 'macOS', 'Linux'], [70, 25, 5]) : v.browser === 'Safari' ? 'iOS' : pick(['Android', 'iOS'], [70, 30]));
+function demoSession(t) {
+  const v = R() < .3 ? visitorPool[Math.floor(R() * 120)] : visitorPool[120 + Math.floor(R() * (visitorPool.length - 120))], sid = uid(), out = [], ref = pick(['', 'linkedin.com', 'google.com', 'github.com', 'whatsapp.com', 'youtube.com'], [34, 30, 14, 10, 8, 4]);
+  const base = { visitor_id: v.id, session_id: sid, device: v.device, browser: v.browser, os: v.os, timezone: v.tz, language: 'en-GB', path: '/', referrer: ref, utm_source: R() < .05 ? 'cv-email' : '' };
+  let ts = t; const add = (type, extra = {}) => { ts += (5 + R() * 40) * 1000; out.push({ ...base, id: uid(), created_at: new Date(Math.min(ts, Date.now())).toISOString(), event_type: type, section: '', label: '', value: null, is_new_visitor: null, ...extra }); };
+  add('pageview', { is_new_visitor: !v.seen }); v.seen = true;
+  let depth = 1; for (const [id] of SECTIONS) { if (depth > 1 && R() > [1, .82, .7, .5, .38, .55, .4][depth - 1]) break; add('section_view', { section: id }); depth++;
+    if (id === 'work' && R() < .25) add('project_expand', { label: pick(['Fleet Management Dashboard', 'Company Bankruptcy Prediction', 'Power BI Performance Reporting Suite'], [3, 2, 2]) });
+    if (id === 'github' && R() < .28) add('github_click', { label: pick(['fuel-variance-audit', 'profile'], [3, 2]) });
+    if (id === 'resume' && R() < .4) add(R() < .6 ? 'resume_download' : 'resume_view', { label: 'resume_section' });
+    if (id === 'contact' && R() < .2) add(R() < .5 ? 'contact_click' : 'contact_submit', { label: 'email' }); }
+  add('page_leave', { value: Math.round(20 + R() * 260) });
+  return out;
+}
+let demoEvents = [];
+(function seed() { const now = Date.now(); for (let d = 179; d >= 0; d--) { const day = new Date(now - d * 864e5), wd = day.getDay(), n = Math.round((wd === 0 || wd === 6 ? 3 : 7) + R() * 8 + (179 - d) / 30);
+  for (let i = 0; i < n; i++) { const t = +day - R() * 864e5; if (t < now) demoEvents.push(...demoSession(t)); } }
+  demoEvents = demoEvents.filter(e => +new Date(e.created_at) <= now).sort((a, b) => b.created_at.localeCompare(a.created_at)); })();
+function demoEvent(now) { const s = demoSession(+now - 30000); return { ...s[Math.min(1 + Math.floor(R() * 3), s.length - 1)], created_at: now.toISOString(), id: uid() }; }
+</script>
+</body>
+</html>

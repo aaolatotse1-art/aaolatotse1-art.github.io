@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#f3f3f1" />
+  <meta name="description" content="Aobakwe Olatotse — Performance Analyst in Gaborone, Botswana. Power BI, SQL, Python and Microsoft Fabric dashboards for logistics, fuel retail and hospitality." />
+  <title>Aobakwe Olatotse — Performance Analyst</title>
+
+  <!-- Motion gate: hide reveal elements only when motion is allowed. Removed automatically if Anime.js fails to load. -->
+  <script>
+    (function(){
+      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if(!reduce){ document.documentElement.classList.add('motion');
+        setTimeout(function(){ if(!window.__AO_ANIM_READY) document.documentElement.classList.remove('motion'); }, 2500); }
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    /* ─── Tokens ─────────────────────────────────────────────
+       Surfaces: white → grey gradient. Ink & accents follow the brand palette
+       (charcoal #141413, warm greys, orange #d97757 used as a fill only).
+       Contrast on the lightest grey (#e6e6e3): ink 14.7:1, ink-2 6.0:1, accent-ink 4.6:1. */
+    :root{
+      --bg-0:#ffffff; --bg-1:#f3f3f1; --bg-2:#e6e6e3;
+      --ink:#141413; --ink-2:#56554f; --ink-3:#8a8880;
+      --line:rgba(20,20,19,.10); --line-2:rgba(20,20,19,.16);
+      --card:rgba(255,255,255,.72); --card-solid:#ffffff;
+      --accent:#d97757; --accent-ink:#a64b2a; --blue:#3f6f9e; --green:#56693f;
+      --display:'Playfair Display', Georgia, 'Times New Roman', serif;
+      --body:-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      --r:14px; --rl:22px; --rxl:30px;
+      --shadow:0 1px 2px rgba(20,20,19,.04), 0 8px 28px rgba(20,20,19,.07);
+      --shadow-lg:0 2px 6px rgba(20,20,19,.05), 0 24px 60px rgba(20,20,19,.11);
+      --t:.3s cubic-bezier(.2,.7,.2,1);
+    }
+
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+    body{
+      font-family:var(--body);color:var(--ink);font-size:17px;line-height:1.6;
+      background:linear-gradient(180deg,var(--bg-0) 0%,var(--bg-1) 38%,var(--bg-2) 100%) fixed;
+      min-height:100vh;overflow-x:hidden;
+    }
+    body::before{ /* soft grey light pools for depth */
+      content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
+      background:
+        radial-gradient(60% 50% at 85% 0%,rgba(255,255,255,.9),transparent 70%),
+        radial-gradient(50% 45% at 0% 60%,rgba(210,210,206,.35),transparent 70%);
+    }
+    h1,h2,h3{font-family:var(--display);font-weight:500;letter-spacing:-.01em;line-height:1.08;color:var(--ink)}
+    h1{font-size:clamp(2.9rem,6.4vw,5.6rem)}
+    h2{font-size:clamp(2.1rem,4vw,3.3rem)}
+    h3{font-size:1.35rem;line-height:1.25}
+    h1 em,h2 em{font-style:italic;color:var(--ink)}
+    p{color:var(--ink-2)}
+    a{color:inherit}
+    img{max-width:100%;display:block}
+    :focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:8px}
+    .wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+    [hidden]{display:none!important}
+    .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+    .skip{position:absolute;left:12px;top:-60px;z-index:2000;background:var(--ink);color:#fff;padding:10px 16px;border-radius:10px;text-decoration:none}
+    .skip:focus{top:12px}
+
+    /* motion gate */
+    html.motion .rev{opacity:0}
+    html.motion .hero-title{visibility:hidden}
+
+    /* ─── Nav (translucent functional layer) ─── */
+    .nav{position:fixed;top:12px;left:50%;transform:translateX(-50%);z-index:1000;width:min(1120px,calc(100% - 24px));
+      display:flex;align-items:center;justify-content:space-between;gap:16px;padding:8px 8px 8px 20px;
+      background:rgba(255,255,255,.7);backdrop-filter:blur(20px) saturate(1.6);-webkit-backdrop-filter:blur(20px) saturate(1.6);
+      border:1px solid var(--line);border-radius:999px;box-shadow:var(--shadow)}
+    .logo{font-family:var(--display);font-size:1.35rem;font-weight:600;text-decoration:none;letter-spacing:.02em}
+    .logo span{color:var(--accent)}
+    .nav ul{display:flex;gap:4px;list-style:none}
+    .nav ul a{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border-radius:999px;text-decoration:none;font-size:.92rem;color:var(--ink-2);transition:background var(--t),color var(--t)}
+    .nav ul a:hover{background:rgba(20,20,19,.05);color:var(--ink)}
+    .nav ul a.active{color:var(--ink);background:rgba(20,20,19,.07)}
+    .nav-cta{display:flex;align-items:center;gap:8px}
+    .menu-btn{display:none;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:#fff;cursor:pointer;font-size:1rem;color:var(--ink)}
+
+    /* ─── Buttons ─── */
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:.55rem;min-height:44px;padding:0 22px;border-radius:999px;
+      font:600 .95rem/1 var(--body);text-decoration:none;cursor:pointer;border:1px solid transparent;transition:transform var(--t),box-shadow var(--t),background var(--t)}
+    .btn:active{transform:scale(.97)}
+    .btn-ink{background:var(--ink);color:#fff;box-shadow:0 6px 18px rgba(20,20,19,.18)}
+    .btn-ink:hover{background:#2a2a28;box-shadow:0 10px 26px rgba(20,20,19,.22)}
+    .btn-ghost{background:rgba(255,255,255,.7);color:var(--ink);border-color:var(--line-2)}
+    .btn-ghost:hover{background:#fff}
+    .btn-sm{min-height:40px;padding:0 16px;font-size:.88rem}
+
+    /* ─── Sections ─── */
+    section{padding:120px 0 40px;scroll-margin-top:80px}
+    .eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:.78rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);margin-bottom:18px}
+    .eyebrow::before{content:'';width:22px;height:2px;border-radius:2px;background:var(--accent)}
+    .lead{font-size:1.12rem;max-width:620px}
+    .section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:40px}
+    .section-head p{max-width:560px;margin-top:14px}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--rl);box-shadow:var(--shadow);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+    .pill{display:inline-flex;align-items:center;padding:5px 11px;border-radius:999px;background:rgba(20,20,19,.05);border:1px solid var(--line);font-size:.78rem;color:var(--ink-2);white-space:nowrap}
+
+    /* ─── Hero ─── */
+    #hero{min-height:100vh;display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center;max-width:1160px;margin:0 auto;padding:130px 24px 70px}
+    .hero-title{margin-bottom:26px}
+    .hero-title .line{display:block;overflow:hidden;padding-bottom:.06em}
+    .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:34px}
+    .status{display:inline-flex;align-items:center;gap:8px;font-size:.85rem;color:var(--ink-2);margin-bottom:22px;padding:6px 14px 6px 10px;border-radius:999px;background:rgba(255,255,255,.75);border:1px solid var(--line)}
+    .status i{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px rgba(86,105,63,.15)}
+
+    .profile{padding:26px;border-radius:var(--rxl)}
+    .profile-top{display:flex;gap:16px;align-items:center;margin-bottom:22px}
+    .avatar{width:72px;height:72px;border-radius:50%;object-fit:cover;background:var(--bg-2);border:3px solid #fff;box-shadow:var(--shadow);flex-shrink:0;display:grid;place-items:center;font-family:var(--display);font-size:1.5rem}
+    .profile h3{font-size:1.3rem}
+    .profile-sub{font-size:.9rem;color:var(--ink-2)}
+    .outcomes-label{font-size:.75rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-bottom:12px}
+    .metric{padding:14px 0;border-top:1px solid var(--line)}
+    .metric-row{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:8px}
+    .metric-name{font-size:.92rem;color:var(--ink-2)}
+    .metric-val{font-family:var(--display);font-size:1.6rem;font-weight:500;font-variant-numeric:tabular-nums}
+    .bar{height:6px;border-radius:6px;background:rgba(20,20,19,.07);overflow:hidden;position:relative}
+    .bar span{position:absolute;inset:0 auto 0 0;border-radius:6px;background:var(--ink)}
+    .bar span.base{background:rgba(217,119,87,.45)}
+    .metric small{display:block;margin-top:6px;font-size:.78rem;color:var(--ink-3)}
+
+    /* ─── About ─── */
+    .about{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+    .about p+p{margin-top:16px}
+    .skills{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+    .skill{padding:22px}
+    .skill i{font-size:1.1rem;width:42px;height:42px;display:grid;place-items:center;border-radius:12px;background:rgba(20,20,19,.06);margin-bottom:14px}
+    .skill h3{font-size:1.1rem;margin-bottom:6px}
+    .skill p{font-size:.9rem;line-height:1.55}
+
+    /* ─── Segmented control ─── */
+    .seg{display:inline-flex;flex-wrap:wrap;gap:4px;padding:4px;border-radius:999px;background:rgba(20,20,19,.06);border:1px solid var(--line)}
+    .seg button{min-height:40px;padding:0 16px;border-radius:999px;border:0;background:transparent;font:500 .9rem var(--body);color:var(--ink-2);cursor:pointer;transition:background var(--t),color var(--t),box-shadow var(--t)}
+    .seg button[aria-pressed="true"],.seg button[aria-selected="true"]{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(20,20,19,.12)}
+
+    /* ─── Projects ─── */
+    .proj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:28px}
+    .pc{overflow:hidden;display:flex;flex-direction:column;transition:transform var(--t),box-shadow var(--t)}
+    .pc:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+    .pc.feat{grid-column:1/-1;display:grid;grid-template-columns:1.1fr 1fr}
+    .pc.is-hidden{display:none}
+    .pi{aspect-ratio:16/10;background:linear-gradient(135deg,#f6f6f4,#e4e4e0);position:relative;overflow:hidden}
+    .pc.feat .pi{aspect-ratio:auto;min-height:320px}
+    .pi img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+    .pc:hover .pi img{transform:scale(1.04)}
+    .pph{position:absolute;inset:0;display:grid;place-items:center;font-size:2.2rem;color:var(--ink-3)}
+    .pb{padding:22px 22px 24px;display:flex;flex-direction:column;flex:1}
+    .ptag{font-size:.74rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-ink);margin-bottom:8px}
+    .pb h3{margin-bottom:10px}
+    .pb p{font-size:.92rem;line-height:1.6}
+    .pb .clamp{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+    .pb .clamp.open{-webkit-line-clamp:unset}
+    .ptags{display:flex;gap:6px;flex-wrap:wrap;margin-top:16px}
+    .more{margin-top:14px;align-self:flex-start;background:none;border:0;font:600 .88rem var(--body);color:var(--ink);cursor:pointer;min-height:44px;display:inline-flex;align-items:center;gap:6px}
+    .more:hover{text-decoration:underline}
+
+    /* ─── GitHub (live) ─── */
+    .gh-profile{display:flex;align-items:center;gap:20px;padding:22px 24px;margin-bottom:18px;flex-wrap:wrap}
+    .gh-profile img{width:64px;height:64px;border-radius:50%;border:3px solid #fff;box-shadow:var(--shadow)}
+    .gh-meta{flex:1;min-width:220px}
+    .gh-meta h3{font-size:1.25rem}
+    .gh-meta p{font-size:.92rem}
+    .gh-stats{display:flex;gap:28px}
+    .gh-stats div{text-align:center}
+    .gh-stats strong{display:block;font-family:var(--display);font-size:1.7rem;font-weight:500;font-variant-numeric:tabular-nums}
+    .gh-stats span{font-size:.78rem;color:var(--ink-2)}
+    .gh-layout{display:grid;grid-template-columns:2fr 1fr;gap:18px}
+    .repo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;align-content:start}
+    .repo{padding:22px;display:flex;flex-direction:column;gap:10px;text-decoration:none;transition:transform var(--t),box-shadow var(--t)}
+    .repo:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+    .repo h3{font-size:1.15rem;display:flex;align-items:center;gap:8px;word-break:break-word}
+    .repo h3 i{font-size:.95rem;color:var(--ink-3)}
+    .repo p{font-size:.9rem;flex:1}
+    .repo-foot{display:flex;gap:16px;flex-wrap:wrap;font-size:.8rem;color:var(--ink-2);align-items:center}
+    .lang-dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:5px;vertical-align:-1px}
+    .activity{padding:22px}
+    .activity h3{font-size:1.1rem;margin-bottom:12px}
+    .activity ol{list-style:none}
+    .activity li{padding:11px 0;border-top:1px solid var(--line);font-size:.88rem;color:var(--ink-2)}
+    .activity li strong{color:var(--ink);font-weight:600}
+    .activity time{display:block;font-size:.76rem;color:var(--ink-3);margin-top:2px}
+    .gh-status{font-size:.82rem;color:var(--ink-2);margin-top:16px;display:flex;align-items:center;gap:8px}
+    .gh-status .dot{width:7px;height:7px;border-radius:50%;background:var(--green)}
+    .gh-status.cached .dot{background:var(--accent)}
+    .skeleton{background:linear-gradient(90deg,rgba(20,20,19,.05),rgba(20,20,19,.09),rgba(20,20,19,.05));background-size:200% 100%;animation:sk 1.4s infinite;border-radius:var(--rl);min-height:150px;border:1px solid var(--line)}
+    @keyframes sk{to{background-position:-200% 0}}
+
+    /* ─── Walkthroughs ─── */
+    .vid-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+    .vc{overflow:hidden}
+    .vc video{width:100%;aspect-ratio:16/9;background:#e9e9e6;display:block}
+    .vc .pb h3{font-size:1.2rem}
+
+    /* ─── Live résumé ─── */
+    .resume-shell{padding:28px;border-radius:var(--rxl)}
+    .resume-top{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-bottom:22px;border-bottom:1px solid var(--line);margin-bottom:26px}
+    .resume-top .who h3{font-size:1.6rem}
+    .resume-top .who p{font-size:.92rem}
+    .updated{font-size:.8rem;color:var(--ink-3);margin-top:4px}
+    .panel{min-height:260px}
+    .panel[hidden]{display:none}
+    .summary{font-size:1.02rem;max-width:860px;margin-bottom:26px;color:var(--ink)}
+    .timeline{position:relative;padding-left:28px}
+    .timeline::before{content:'';position:absolute;left:6px;top:8px;bottom:8px;width:2px;background:var(--line-2);border-radius:2px;transform-origin:top}
+    .job{position:relative;padding-bottom:28px}
+    .job::before{content:'';position:absolute;left:-27px;top:8px;width:12px;height:12px;border-radius:50%;background:#fff;border:2px solid var(--ink)}
+    .job.current::before{background:var(--accent);border-color:var(--accent)}
+    .job-head{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline}
+    .job h4{font-family:var(--display);font-size:1.3rem;font-weight:500}
+    .job .org{color:var(--ink-2);font-size:.95rem}
+    .job .when{font-size:.84rem;color:var(--ink-2);font-variant-numeric:tabular-nums;white-space:nowrap}
+    .job ul{margin:12px 0 0 18px;display:grid;gap:7px}
+    .job li{font-size:.93rem;color:var(--ink-2)}
+    .job li::marker{color:var(--ink-3)}
+    .badge{display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:6px;background:rgba(217,119,87,.16);color:var(--accent-ink);margin-left:8px;vertical-align:3px}
+    .skill-groups{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .skill-group{padding:20px;border-radius:var(--r);background:rgba(255,255,255,.6);border:1px solid var(--line)}
+    .skill-group h4{font-family:var(--display);font-size:1.15rem;font-weight:500;margin-bottom:12px}
+    .skill-group .tags{display:flex;flex-wrap:wrap;gap:6px}
+    .list-2{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+    .entry{padding:14px 0;border-top:1px solid var(--line)}
+    .entry strong{display:block;font-weight:600}
+    .entry span{font-size:.88rem;color:var(--ink-2)}
+    .entry .st{float:right;font-size:.78rem;padding:2px 8px;border-radius:6px;background:rgba(20,20,19,.06);color:var(--ink-2)}
+    .entry .st.done{background:rgba(86,105,63,.14);color:var(--green)}
+    .cert-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:22px}
+    .cert-strip a{display:block;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:#fff}
+    .cert-strip img{aspect-ratio:4/3;object-fit:cover;width:100%}
+    .cert-strip figcaption{font-size:.78rem;padding:8px 10px;color:var(--ink-2)}
+    .h4{font-family:var(--display);font-size:1.25rem;font-weight:500;margin-bottom:6px}
+
+    /* ─── Contact ─── */
+    .contact{display:grid;grid-template-columns:1.2fr .8fr;gap:24px}
+    .form{padding:28px;display:grid;gap:14px}
+    .form .row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    label{font-size:.85rem;font-weight:600;color:var(--ink);display:grid;gap:6px}
+    input,textarea{font:inherit;font-size:1rem;color:var(--ink);background:#fff;border:1px solid var(--line-2);border-radius:12px;padding:12px 14px;min-height:46px;transition:border-color var(--t),box-shadow var(--t)}
+    input:focus,textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 4px rgba(63,111,158,.15)}
+    textarea{min-height:140px;resize:vertical}
+    .form-note{font-size:.84rem;color:var(--ink-2)}
+    .details{padding:28px}
+    .detail{display:flex;gap:14px;align-items:center;padding:14px 0;border-top:1px solid var(--line)}
+    .detail:first-of-type{border-top:0}
+    .detail i{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:rgba(20,20,19,.06)}
+    .detail small{display:block;font-size:.76rem;color:var(--ink-3);text-transform:uppercase;letter-spacing:.1em}
+    .detail a{text-decoration:none;font-weight:600}
+    .socials{display:flex;gap:10px;margin-top:18px}
+    .socials a{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:#fff;border:1px solid var(--line);text-decoration:none;transition:transform var(--t)}
+    .socials a:hover{transform:translateY(-2px)}
+
+    footer{padding:60px 0 40px;margin-top:80px;border-top:1px solid var(--line)}
+    .foot{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center;font-size:.85rem;color:var(--ink-2)}
+    .privacy{font-size:.8rem;color:var(--ink-3);margin-top:14px;max-width:720px}
+
+
+    /* ─── Gradient cards (requested gradient) ───
+       Text sits on a dark glass plate (#071110 @ 62%) so it stays readable across
+       the whole yellow→black range: white ≥ 5.8:1, body text (88% white) ≥ 4.9:1, yellow tags ≥ 8:1. */
+    :root{--neon:linear-gradient(to left bottom,#eeff32,#e6f52b,#ddea25,#d5e01d,#ccd615,#a7c422,#85b12b,#679e31,#337b3a,#0d5637,#063329,#071110);
+      --plate:rgba(7,17,16,.62);--on-1:#ffffff;--on-2:rgba(255,255,255,.88);--on-line:rgba(255,255,255,.16)}
+    .gcard{background-color:#679e31;background-image:var(--neon);border:0;color:var(--on-1);box-shadow:0 2px 6px rgba(7,17,16,.12),0 18px 44px rgba(7,17,16,.18);position:relative;isolation:isolate}
+    .gcard.tc::before{content:'';position:absolute;inset:6px;border-radius:calc(var(--rl) - 6px);background:var(--plate);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);z-index:-1}
+    .profile.gcard.tc::before{border-radius:calc(var(--rxl) - 6px)}
+    .gcard .pb{background:var(--plate);margin:0 6px 6px;border-radius:0 0 calc(var(--rl) - 6px) calc(var(--rl) - 6px);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+    .gcard .pi{background:transparent}
+    .gcard .pph{color:rgba(7,17,16,.55)}
+    .gcard h3,.gcard .metric-val,.gcard .gh-stats strong{color:var(--on-1)}
+    .gcard p,.gcard .profile-sub,.gcard .metric-name,.gcard .metric small,.gcard .repo-foot,.gcard .gh-stats span,.gcard .activity li,.gcard li,.gcard time,.gcard .outcomes-label{color:var(--on-2)}
+    .gcard li strong{color:var(--on-1)}
+    .gcard .ptag{color:#eeff32}
+    .gcard .pill{background:rgba(255,255,255,.10);border-color:rgba(255,255,255,.22);color:var(--on-1)}
+    .gcard .more{color:var(--on-1)}
+    .gcard .metric,.gcard li{border-color:var(--on-line)}
+    .gcard .bar{background:rgba(255,255,255,.16)}
+    .gcard .bar span{background:#eeff32}
+    .gcard .bar span.base{background:rgba(255,255,255,.42)}
+    .gcard .skill-i,.gcard.skill i{background:rgba(255,255,255,.12);color:#eeff32}
+    .gcard .repo-foot i,.gcard h3 i{color:#eeff32}
+    .gcard .avatar,.gcard #ghAvatar{border-color:rgba(255,255,255,.85);color:var(--ink)}
+    .gcard :focus-visible,.gcard:focus-visible{outline-color:#eeff32}
+    .gcard:hover{box-shadow:0 4px 10px rgba(7,17,16,.14),0 26px 60px rgba(7,17,16,.24)}
+    .pc.feat.gcard .pb{margin:6px 6px 6px 0;border-radius:0 calc(var(--rl) - 6px) calc(var(--rl) - 6px) 0}
+    @media (max-width:1000px){.pc.feat.gcard .pb{margin:0 6px 6px;border-radius:0 0 calc(var(--rl) - 6px) calc(var(--rl) - 6px)}}
+    @media (prefers-reduced-transparency:reduce){.gcard .pb,.gcard.tc::before{background:rgba(7,17,16,.8);backdrop-filter:none}}
+
+    /* ─── Responsive ─── */
+    @media (max-width:1000px){
+      #hero{grid-template-columns:1fr;gap:40px;padding-top:120px}
+      .about,.contact,.gh-layout{grid-template-columns:1fr}
+      .proj-grid{grid-template-columns:repeat(2,1fr)}
+      .pc.feat{grid-template-columns:1fr}
+      .skill-groups{grid-template-columns:1fr 1fr}
+    }
+    @media (max-width:760px){
+      body{font-size:16px}
+      section{padding-top:90px}
+      .menu-btn{display:grid;place-items:center}
+      .nav ul{display:none;position:absolute;top:calc(100% + 8px);left:0;right:0;flex-direction:column;padding:10px;background:rgba(255,255,255,.96);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow-lg)}
+      .nav ul.open{display:flex}
+      .nav-cta .btn{display:none}
+      .proj-grid,.vid-grid,.skills,.skill-groups,.list-2,.form .row{grid-template-columns:1fr}
+      .cert-strip{grid-template-columns:1fr 1fr}
+      .resume-shell,.form,.details{padding:20px}
+      .gh-stats{gap:18px}
+      .seg{flex-wrap:nowrap;overflow-x:auto;max-width:100%;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+      .seg::-webkit-scrollbar{display:none}
+      .seg button{flex-shrink:0}
+    }
+    @media (prefers-reduced-motion:reduce){
+      html{scroll-behavior:auto}
+      *,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important}
+    }
+    @media (prefers-reduced-transparency:reduce){
+      .nav,.card:not(.gcard){backdrop-filter:none;-webkit-backdrop-filter:none;background:#fff}
+    }
+  </style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- ══ NAV ══ -->
+<header class="nav" role="banner">
+  <a href="#hero" class="logo" aria-label="Aobakwe Olatotse, home">AO<span>.</span></a>
+  <nav aria-label="Primary">
+    <ul id="navList">
+      <li><a href="#about">About</a></li>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#github">GitHub</a></li>
+      <li><a href="#resume">Résumé</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+  <div class="nav-cta">
+    <a class="btn btn-ink btn-sm" href="files/Aobakwe_Olatotse_Resume.pdf" download data-track="resume_download" data-label="nav">
+      <i class="fa-solid fa-arrow-down" aria-hidden="true"></i> Résumé
+    </a>
+    <button class="menu-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navList"><i class="fa-solid fa-bars" aria-hidden="true"></i></button>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ══ HERO ══ -->
+<section id="hero" data-section="hero" aria-labelledby="heroTitle">
+  <div>
+    <div class="status rev"><i aria-hidden="true"></i> Performance Analyst · Sky Bridge Group · Gaborone</div>
+    <h1 class="hero-title" id="heroTitle">
+      <span class="line">Turning data</span>
+      <span class="line"><em>into decisions.</em></span>
+    </h1>
+    <p class="lead rev">I build Power BI, Microsoft Fabric and Python reporting that helps logistics, fuel retail and hospitality teams see what is happening — and act on it.</p>
+    <div class="hero-actions rev">
+      <a href="#work" class="btn btn-ink"><i class="fa-solid fa-layer-group" aria-hidden="true"></i> See my work</a>
+      <a href="#resume" class="btn btn-ghost"><i class="fa-regular fa-file-lines" aria-hidden="true"></i> Read the résumé</a>
+    </div>
+  </div>
+
+  <aside class="profile card gcard tc rev" aria-label="Profile and outcomes">
+    <div class="profile-top">
+      <img src="profile.jpeg" alt="Portrait of Aobakwe Olatotse" class="avatar" onerror="this.outerHTML='<div class=avatar aria-hidden=true>AO</div>'" />
+      <div>
+        <h3>Aobakwe Olatotse</h3>
+        <div class="profile-sub">Performance Analyst · Botswana</div>
+      </div>
+    </div>
+    <div class="outcomes-label">Selected outcomes</div>
+
+    <div class="metric" data-metric>
+      <div class="metric-row"><span class="metric-name">On-time delivery</span><span class="metric-val"><span data-count="90">90</span>%</span></div>
+      <div class="bar" role="img" aria-label="On-time delivery rose from 60 to 70 percent to 90 percent"><span class="base" style="width:65%"></span><span class="fill" style="width:90%"></span></div>
+      <small>Up from 60–70% after process changes with operations</small>
+    </div>
+    <div class="metric" data-metric>
+      <div class="metric-row"><span class="metric-name">Delay & volume forecast accuracy</span><span class="metric-val"><span data-count="85">85</span>%</span></div>
+      <div class="bar" role="img" aria-label="85 percent forecast accuracy"><span class="fill" style="width:85%"></span></div>
+      <small>Python model predicting route delays and weekly site volume</small>
+    </div>
+    <div class="metric" data-metric>
+      <div class="metric-row"><span class="metric-name">IT ticket volume</span><span class="metric-val">−<span data-count="70">70</span>%</span></div>
+      <div class="bar" role="img" aria-label="Ticket volume reduced by 70 percent"><span class="fill" style="width:70%"></span></div>
+      <small>Automated fixes for recurring issues</small>
+    </div>
+  </aside>
+</section>
+
+<!-- ══ ABOUT ══ -->
+<section id="about" data-section="about" aria-labelledby="aboutTitle">
+  <div class="wrap about">
+    <div class="rev">
+      <div class="eyebrow">About</div>
+      <h2 id="aboutTitle">Analytics that starts <em>on the ground.</em></h2>
+      <p class="lead" style="margin-top:22px">I spent three years in IT support and systems analysis at Sky Bridge Logistics before moving into performance analysis — so I know where operational data comes from, and where it breaks.</p>
+      <p>Today I monitor KPIs across the Sky Bridge Group: delivery times, fleet efficiency and site volume in logistics; fuel sales across retail sites; room revenue, ADR and related hotel metrics in hospitality. I turn them into dashboards, weekly analyses and recommendations for management.</p>
+      <p>I care about the plumbing as much as the picture: clean extracts, documented measures, and reports people trust enough to act on.</p>
+    </div>
+    <div class="skills">
+      <div class="skill card gcard tc rev"><i class="fa-solid fa-chart-column" aria-hidden="true"></i><h3>Business intelligence</h3><p>Power BI, Microsoft Fabric and Excel dashboards for operations and leadership.</p></div>
+      <div class="skill card gcard tc rev"><i class="fa-solid fa-database" aria-hidden="true"></i><h3>SQL &amp; Python</h3><p>Extracting, transforming and analysing data from logistics platforms and databases.</p></div>
+      <div class="skill card gcard tc rev"><i class="fa-solid fa-wave-square" aria-hidden="true"></i><h3>Forecasting</h3><p>Predictive models for route delays and weekly site volume to plan staffing.</p></div>
+      <div class="skill card gcard tc rev"><i class="fa-solid fa-gauge-high" aria-hidden="true"></i><h3>KPI operations</h3><p>Fleet, fuel and hospitality KPIs tracked weekly, monthly and ad hoc.</p></div>
+      <div class="skill card gcard tc rev"><i class="fa-solid fa-gears" aria-hidden="true"></i><h3>Automation</h3><p>Automated fixes and standardised processes that cut recurring work.</p></div>
+      <div class="skill card gcard tc rev"><i class="fa-solid fa-diagram-project" aria-hidden="true"></i><h3>Systems analysis</h3><p>Requirements, documentation and integration between platforms and reporting.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ WORK ══ -->
+<section id="work" data-section="work" aria-labelledby="workTitle">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="rev">
+        <div class="eyebrow">Selected work</div>
+        <h2 id="workTitle">Projects</h2>
+        <p>Machine learning, logistics analytics, Excel automation, Power BI and browser-based tools.</p>
+      </div>
+      <div class="seg rev" role="group" aria-label="Filter projects">
+        <button type="button" data-filter="all" aria-pressed="true">All</button>
+        <button type="button" data-filter="analytics" aria-pressed="false">Analytics &amp; BI</button>
+        <button type="button" data-filter="automation" aria-pressed="false">Automation</button>
+        <button type="button" data-filter="concept" aria-pressed="false">Concepts &amp; UI</button>
+      </div>
+    </div>
+
+    <div class="proj-grid" id="projGrid">
+      <article class="pc card gcard feat rev" data-category="analytics">
+        <div class="pi"><img src="images/thumbs/01.jpg" alt="Bankruptcy prediction analysis" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'pph',innerHTML:'<i class=\'fa-solid fa-chart-line\'></i>'}))"/></div>
+        <div class="pb">
+          <span class="ptag">Machine learning · Predictive analytics</span>
+          <h3>Company Bankruptcy Prediction</h3>
+          <p class="clamp">Data from the Taiwan Economic Journal (1999–2009), used to predict corporate insolvency under Taiwan Stock Exchange rules. Covers exploratory analysis, feature engineering, class-imbalance handling, model development and business interpretation of the results. Source: UCI ML Repository — National Central University, Taiwan.</p>
+          <div class="ptags"><span class="pill">Python</span><span class="pill">EDA</span><span class="pill">Classification</span><span class="pill">Class imbalance</span></div>
+          <a class="more" href="images/certificates/bankruptcy_prediction_notes.pdf" target="_blank" rel="noopener" data-track="project_open" data-label="bankruptcy_notes">Open project notes <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+        </div>
+      </article>
+
+      <article class="pc card gcard rev" data-category="analytics">
+        <div class="pi"><img src="images/thumbs/02.jpg" alt="Fleet management dashboard" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'pph',innerHTML:'<i class=\'fa-solid fa-truck-fast\'></i>'}))"/></div>
+        <div class="pb"><span class="ptag">Dashboard · Fleet analytics</span><h3>Fleet Management Dashboard</h3>
+          <p class="clamp">A single-page HTML dashboard (four versions) that reads a fleet time-tracker Excel workbook in the browser. A Performance tab ranks drivers and trucks against targets, a Delays tab splits delays into six causes, and a date-range bar has quick presets. Clicking a driver opens a satellite map and trip timeline.</p>
+          <div class="ptags"><span class="pill">JavaScript</span><span class="pill">Leaflet.js</span><span class="pill">Chart.js</span><span class="pill">SheetJS</span></div></div>
+      </article>
+
+      <article class="pc card gcard rev" data-category="automation">
+        <div class="pi"><img src="images/thumbs/03.jpg" alt="Automated fuel management system" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'pph',innerHTML:'<i class=\'fa-solid fa-gas-pump\'></i>'}))"/></div>
+        <div class="pb"><span class="ptag">Excel automation</span><h3>Automated Fuel Management System</h3>
+          <p class="clamp">Two linked workbooks: a fuel issue log with a sheet for each of six fuelling stations, and a consumption report across 36 vehicle sheets. Cross-workbook SUMIFS, COUNTIFS and AVERAGEIFS formulas pull the log into the report, after repairing broken external references and mismatched sheet names.</p>
+          <div class="ptags"><span class="pill">Excel</span><span class="pill">SUMIFS</span><span class="pill">COUNTIFS</span></div></div>
+      </article>
+
+      <article class="pc card gcard rev" data-category="analytics">
+        <div class="pi"><img src="images/thumbs/04.jpg" alt="Power BI performance reporting suite" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'pph',innerHTML:'<i class=\'fa-solid fa-chart-column\'></i>'}))"/></div>
+        <div class="pb"><span class="ptag">Power BI · DAX</span><h3>Power BI Performance Reporting Suite</h3>
+          <p class="clamp">Performance reporting in Power BI with its documentation: user guide, SOP, RACI matrix, executive briefing and build notes. Fixed DAX measure bugs by moving to ADDCOLUMNS with explicit CALCULATE scoping per site and product, after finding ALLEXCEPT inside CALCULATE returned fleet-wide totals on every row.</p>
+          <div class="ptags"><span class="pill">Power BI</span><span class="pill">DAX</span><span class="pill">Documentation</span></div></div>
+      </article>
+
+      <article class="pc card gcard rev" data-category="analytics">
+        <div class="pi"><img src="images/thumbs/05.jpg" alt="Logistics performance tracking workbook" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'pph',innerHTML:'<i class=\'fa-solid fa-gauge-high\'></i>'}))"/></div>
+        <div class="pb"><span class="ptag">Excel · KPI reporting</span><h3>Logistics Performance Tracking</h3>
+          <p class="clamp">Break-even analysis and a monthly performance workbook with target-vs-actual achievement by contract, month-over-month and week-over-week views by truck and contract, and KM trends. Traced a week-one KM anomaly back to missing target values.</p>
+          <div class="ptags"><span class="pill">Excel</span><span class="pill">Target vs actual</span><span class="pill">MoM / WoW</span></div></div>
+      </article>
+
+      <article class="pc card gcard rev" data-category="automation">
+        <div class="pi"><img src="images/thumbs/06.jpg" alt="Truck and trailer compliance checklist" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'pph',innerHTML:'<i class=\'fa-solid fa-clipboard-check\'></i>'}))"/></div>
+        <div class="pb"><span class="ptag">Excel → Power BI</span><h3>Truck &amp; Trailer Compliance Checklist</h3>
+          <p class="clamp">An automated checklist replacing a paper form for fortnightly document checks across 25 horse/trailer pairs grouped by contract — registration book, roadworthiness, licence and permit — built to feed a Power BI dashboard.</p>
+          <div class="ptags"><span class="pill">Excel</span><span class="pill">Data capture</span><span class="pill">Power BI</span></div></div>
+      </article>
+
+      <article class="pc card gcard rev" data-category="automation">
+        <div class="pi"><div class="pph"><i class="fa-solid fa-magnifying-glass-chart" aria-hidden="true"></i></div></div>
+        <div class="pb"><span class="ptag">HTML · JavaScript</span><h3>Fuel Variance Audit Tool</h3>
+          <p class="clamp">A single-file HTML tool for auditing fuel variances, with recurring JavaScript syntax issues fixed iteratively using Node.js and Python scripts.</p>
+          <div class="ptags"><span class="pill">JavaScript</span><span class="pill">Node.js</span><span class="pill">Debugging</span></div>
+          <a class="more" href="https://github.com/aaolatotse1-art/fuel-variance-audit" target="_blank" rel="noopener" data-track="github_click" data-label="fuel-variance-audit">View on GitHub <i class="fa-brands fa-github" aria-hidden="true"></i></a></div>
+      </article>
+
+      <article class="pc card gcard rev" data-category="concept">
+        <div class="pi"><div class="pph"><i class="fa-solid fa-diagram-project" aria-hidden="true"></i></div></div>
+        <div class="pb"><span class="ptag">Personal project</span><h3>Audit &amp; Advisory Management System</h3>
+          <p class="clamp">A locally hosted analyst tool whose workflow runs in sequence: file and KPI upload, AI analysis, SWOT generation, report generation, a recommendation engine and an execution roadmap.</p>
+          <div class="ptags"><span class="pill">Workflow design</span><span class="pill">AI-assisted</span></div></div>
+      </article>
+
+      <article class="pc card gcard rev" data-category="concept">
+        <div class="pi"><div class="pph"><i class="fa-solid fa-table-cells-large" aria-hidden="true"></i></div></div>
+        <div class="pb"><span class="ptag">UI design · React</span><h3>Motel Dashboard Cards</h3>
+          <p class="clamp">A dashboard card design taken from Figma into a build specification for a React app using TypeScript, Vite, Tailwind CSS and shadcn/ui.</p>
+          <div class="ptags"><span class="pill">Figma</span><span class="pill">React</span><span class="pill">TypeScript</span></div></div>
+      </article>
+
+      <article class="pc card gcard rev" data-category="concept">
+        <div class="pi"><div class="pph"><i class="fa-solid fa-users-viewfinder" aria-hidden="true"></i></div></div>
+        <div class="pb"><span class="ptag">Excel · Decision support</span><h3>Stakeholder Prioritisation Matrix</h3>
+          <p class="clamp">A spreadsheet matrix for analysing and prioritising stakeholders, where checkboxes and IF formulas show each stakeholder's category automatically.</p>
+          <div class="ptags"><span class="pill">Excel</span><span class="pill">IF formulas</span></div></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ══ GITHUB (LIVE) ══ -->
+<section id="github" data-section="github" aria-labelledby="ghTitle">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="rev">
+        <div class="eyebrow">Live from GitHub</div>
+        <h2 id="ghTitle">Code &amp; <em>repositories</em></h2>
+        <p>Pulled straight from GitHub each time the page loads, so new repositories appear here without editing the site.</p>
+      </div>
+      <a class="btn btn-ghost rev" id="ghFollow" href="https://github.com/aaolatotse1-art" target="_blank" rel="noopener" data-track="github_click" data-label="profile"><i class="fa-brands fa-github" aria-hidden="true"></i> Open GitHub profile</a>
+    </div>
+
+    <div class="gh-profile card gcard tc rev" id="ghProfile">
+      <img id="ghAvatar" src="https://github.com/aaolatotse1-art.png?size=128" alt="" width="64" height="64" onerror="this.outerHTML='<div class=avatar aria-hidden=true style=width:64px;height:64px;font-size:1.2rem>AO</div>'" />
+      <div class="gh-meta">
+        <h3 id="ghName">Aobakwe Olatotse</h3>
+        <p id="ghBio">@aaolatotse1-art · Gaborone</p>
+      </div>
+      <div class="gh-stats">
+        <div><strong id="ghRepos">—</strong><span>Public repos</span></div>
+        <div><strong id="ghFollowers">—</strong><span>Followers</span></div>
+        <div><strong id="ghStars">—</strong><span>Stars</span></div>
+      </div>
+    </div>
+
+    <div class="gh-layout">
+      <div class="repo-grid" id="repoGrid" aria-live="polite">
+        <div class="skeleton"></div><div class="skeleton"></div>
+      </div>
+      <div class="activity card gcard tc rev">
+        <h3>Recent activity</h3>
+        <ol id="ghActivity"><li>Loading…</li></ol>
+      </div>
+    </div>
+    <p class="gh-status" id="ghStatus" role="status"><span class="dot"></span> Connecting to GitHub…</p>
+  </div>
+</section>
+
+<!-- ══ WALKTHROUGHS ══ -->
+<section id="walkthroughs" data-section="walkthroughs" aria-labelledby="vidTitle">
+  <div class="wrap">
+    <div class="section-head rev">
+      <div>
+        <div class="eyebrow">Walkthroughs</div>
+        <h2 id="vidTitle">Data cleaning <em>sessions</em></h2>
+        <p>Recorded sessions on cleaning workflows in Excel and SQL — missing data, inconsistencies and structuring datasets for analysis.</p>
+      </div>
+    </div>
+    <div class="vid-grid">
+      <article class="vc card gcard rev">
+        <video controls preload="none" poster="images/thumbs/our channel - Made with PosterMyWall excel.jpg" data-track-video="excel_cleaning"><source src="videos/excel_data_cleaning.mp4" type="video/mp4"></video>
+        <div class="pb"><h3>Excel data cleaning walkthrough</h3><p>Cleaning and validating large datasets with Power Query and formula-driven methods.</p></div>
+      </article>
+      <article class="vc card gcard rev">
+        <video controls preload="none" poster="images/thumbs/our channel - Made with PosterMyWall.jpg" data-track-video="sql_cleaning"><source src="videos/sql_data_cleaning.mp4" type="video/mp4"></video>
+        <div class="pb"><h3>SQL transformation &amp; cleaning</h3><p>Using PostgreSQL to detect duplicates, manage nulls and normalise data.</p></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ══ LIVE RÉSUMÉ ══ -->
+<section id="resume" data-section="resume" aria-labelledby="resumeTitle">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="rev">
+        <div class="eyebrow">Live résumé</div>
+        <h2 id="resumeTitle">Experience, <em>at a glance</em></h2>
+        <p>The same content as my PDF, kept current on the page. Download the PDF for the formatted version.</p>
+      </div>
+    </div>
+
+    <div class="resume-shell card rev">
+      <div class="resume-top">
+        <div class="who">
+          <h3>Aobakwe Arnold Olatotse</h3>
+          <p>Performance Analyst · Gaborone, Botswana</p>
+          <div class="updated" id="resumeUpdated"></div>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <a class="btn btn-ghost btn-sm" href="files/Aobakwe_Olatotse_Resume.pdf" target="_blank" rel="noopener" data-track="resume_view" data-label="resume_section"><i class="fa-regular fa-eye" aria-hidden="true"></i> View PDF</a>
+          <a class="btn btn-ink btn-sm" href="files/Aobakwe_Olatotse_Resume.pdf" download data-track="resume_download" data-label="resume_section"><i class="fa-solid fa-arrow-down" aria-hidden="true"></i> Download PDF</a>
+        </div>
+      </div>
+
+      <div class="seg" role="tablist" aria-label="Résumé sections" id="resumeTabs" style="margin-bottom:26px">
+        <button role="tab" id="tab-exp" aria-controls="panel-exp" aria-selected="true">Experience</button>
+        <button role="tab" id="tab-skills" aria-controls="panel-skills" aria-selected="false" tabindex="-1">Skills</button>
+        <button role="tab" id="tab-edu" aria-controls="panel-edu" aria-selected="false" tabindex="-1">Education &amp; certifications</button>
+        <button role="tab" id="tab-proj" aria-controls="panel-proj" aria-selected="false" tabindex="-1">Projects &amp; languages</button>
+      </div>
+
+      <div class="panel" role="tabpanel" id="panel-exp" aria-labelledby="tab-exp"></div>
+      <div class="panel" role="tabpanel" id="panel-skills" aria-labelledby="tab-skills" hidden></div>
+      <div class="panel" role="tabpanel" id="panel-edu" aria-labelledby="tab-edu" hidden></div>
+      <div class="panel" role="tabpanel" id="panel-proj" aria-labelledby="tab-proj" hidden></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CONTACT ══ -->
+<section id="contact" data-section="contact" aria-labelledby="contactTitle">
+  <div class="wrap">
+    <div class="section-head rev">
+      <div>
+        <div class="eyebrow">Contact</div>
+        <h2 id="contactTitle">Let's <em>talk data.</em></h2>
+        <p>Open to opportunities, collaborations and conversations about analytics.</p>
+      </div>
+    </div>
+    <div class="contact">
+      <form class="form card rev" id="contactForm" novalidate>
+        <div class="row">
+          <label>Name<input type="text" name="name" autocomplete="name" required /></label>
+          <label>Email<input type="email" name="email" autocomplete="email" required /></label>
+        </div>
+        <label>Message<textarea name="message" required></textarea></label>
+        <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap">
+          <button type="submit" class="btn btn-ink"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Open in email</button>
+          <p class="form-note" id="formStatus" role="status">Your email app opens with the message ready to send.</p>
+        </div>
+      </form>
+      <div class="details card rev">
+        <div class="detail"><i class="fa-solid fa-location-dot" aria-hidden="true"></i><div><small>Location</small>Gaborone, Botswana</div></div>
+        <div class="detail"><i class="fa-solid fa-envelope" aria-hidden="true"></i><div><small>Email</small><a id="emailLink" href="#" data-track="contact_click" data-label="email"></a></div></div>
+        <div class="detail"><i class="fa-solid fa-phone" aria-hidden="true"></i><div><small>Phone</small><a id="phoneLink" href="#" data-track="contact_click" data-label="phone"></a></div></div>
+        <div class="socials">
+          <a href="https://github.com/aaolatotse1-art" target="_blank" rel="noopener" aria-label="GitHub" data-track="github_click" data-label="contact"><i class="fa-brands fa-github" aria-hidden="true"></i></a>
+          <a id="linkedinLink" href="#" target="_blank" rel="noopener" aria-label="LinkedIn" data-track="social_click" data-label="linkedin" hidden><i class="fa-brands fa-linkedin-in" aria-hidden="true"></i></a>
+          <a href="https://www.youtube.com/@ArnoldTheAnalyst" target="_blank" rel="noopener" aria-label="YouTube" data-track="social_click" data-label="youtube"><i class="fa-brands fa-youtube" aria-hidden="true"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <span class="logo">AO<span>.</span></span>
+      <span>© <span id="year">2026</span> Aobakwe Olatotse · Performance Analyst</span>
+    </div>
+    <p class="privacy">This site keeps anonymous visit statistics — which sections are viewed and which links are clicked — using a random ID stored in your browser. No names, IP addresses, cookies or ad trackers. If your browser sends Do Not Track or Global Privacy Control, nothing is recorded.</p>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════════════
+     CONFIGURATION — edit these values (see README.md)
+     ═══════════════════════════════════════════════════════════ -->
+<script>
+  window.PORTFOLIO_CONFIG = {
+    githubUsername: "aaolatotse1-art",
+    githubHideRepos: ["aaolatotse1-art", "aaolatotse1-art.github.io"], // profile README & site repos
+    contactEmail: "aaolatotse1@gmail.com",
+    phone: "+267 76733163",
+    linkedinUrl: "",                 // e.g. https://www.linkedin.com/in/your-handle
+    // Private analytics (Supabase). Leave blank to switch tracking off.
+    supabaseUrl: "",                 // e.g. https://abcd1234.supabase.co
+    supabaseAnonKey: ""              // the public "anon" / "publishable" key — never the service_role key
+  };
+</script>
+
+<!-- ═══ Live résumé data — edit here to update the page ═══ -->
+<script>
+  window.RESUME = {
+    updated: "2026-11-13",
+    summary: "Analytical professional using SQL, Python and Microsoft Fabric to turn complex operational data into actionable strategy. Builds interactive Power BI dashboards that improve decision-making across logistics, revenue management and financial performance.",
+    experience: [
+      { role: "Performance Analyst", org: "Sky Bridge Group", place: "Gaborone", when: "2025 – Present", current: true, points: [
+        "Monitor and analyse operational KPIs — delivery times, fleet efficiency, warehouse productivity, site volume, room revenue, ADR, CPOR, GPR, DURN and DBRN — and deliver insights to management and department heads.",
+        "Develop interactive dashboards and reports in Power BI, Excel and Microsoft Fabric for operations, sales and leadership teams.",
+        "Identified performance gaps with operations teams and implemented process changes that raised on-time delivery from 60–70% to 90%.",
+        "Run weekly, monthly and ad-hoc analyses with SQL and Python on data from logistics platforms and databases.",
+        "Present findings and recommendations to senior leadership, improving contract performance and operational efficiency.",
+        "Built a Python predictive model forecasting delivery delays by route and weekly site volume for staffing with 85% accuracy, enabling route optimisation that reduced fuel costs by 5%."
+      ]},
+      { role: "System Analyst", org: "Sky Bridge Logistics", place: "Gaborone", when: "2022 – 2025", points: [
+        "Gathered and analysed requirements from logistics and operations teams to configure and optimise the logistics management platform.",
+        "Documented system specifications, workflows and user guides to support training and adoption.",
+        "Tested system updates and resolved integration issues with IT and operations teams.",
+        "Monitored system performance and data integrity, resolving discrepancies that affected reporting.",
+        "Supported data integration between logistics platforms and reporting tools for Power BI dashboards."
+      ]},
+      { role: "IT Support", org: "Sky Bridge Logistics", place: "Gaborone", when: "2022 – 2025", points: [
+        "Supported hardware, software and network issues for 50+ users across office and warehouse environments.",
+        "Administered Active Directory accounts and email, and managed Office 365 and Zoho One configuration.",
+        "Automated fixes and standardised processes for recurring issues, reducing ticket volume by 70%.",
+        "Set up fully configured workstations for a new office and warehouse expansion.",
+        "Designed the business process for a Document Tracking System from scratch.",
+        "Wrote documentation and training materials so users could resolve common issues themselves."
+      ]}
+    ],
+    skills: {
+      "Analytics & BI": ["Power BI", "Microsoft Fabric", "Excel dashboards", "SQL", "Python", "Data analysis & visualisation", "Business intelligence"],
+      "Performance & KPIs": ["KPI monitoring & reporting", "Operational performance analysis", "Revenue & profitability analysis", "Financial KPI reporting", "Forecasting & modelling"],
+      "Finance & FinTech": ["Financial data analysis", "Financial dashboard development", "Digital payments & transaction analysis", "FinTech product knowledge", "Risk assessment", "Regulatory compliance awareness"],
+      "Systems & IT": ["Active Directory", "Office 365", "Zoho One", "Network troubleshooting", "Remote desktop & VPN", "IT ticketing systems"],
+      "Ways of working": ["Process automation", "Technical documentation", "Cross-functional collaboration"]
+    },
+    education: [
+      { name: "Advanced Diploma in International Computing", org: "Institute of Development Management, Gaborone", when: "2018" },
+      { name: "Diploma in International Computing", org: "Institute of Development Management, Gaborone", when: "2016" }
+    ],
+    coursework: "Statistics, Database Management, Data Analysis, Programming",
+    certifications: [
+      { name: "Business Intelligence & Data Analyst (BIDA®)", org: "Corporate Finance Institute", when: "06/2026", done: true },
+      { name: "FinTech Industry Professional (FTIP®)", org: "Corporate Finance Institute", when: "06/2026", done: true },
+      { name: "Economics for Capital Markets", org: "Corporate Finance Institute", when: "06/2026", done: true },
+      { name: "Microsoft Power BI Desktop for Business Intelligence", org: "Udemy", when: "11/2024", done: true },
+      { name: "PL-300: Microsoft Power BI Data Analyst", org: "Microsoft Learn", when: "In progress", done: false },
+      { name: "Building an On-Premises Data Warehouse with SAP BW/4HANA", org: "SAP", when: "In progress", done: false }
+    ],
+    certificateImages: [
+      { src: "images/certificates/Udemy Power Bi Certifi.jpg", label: "Power BI Desktop — Udemy" },
+      { src: "images/certificates/cert2.jpg", label: "SQL for Data Analysis" },
+      { src: "images/certificates/cert3.jpg", label: "Data Engineering Fundamentals" },
+      { src: "images/certificates/cert4.jpg", label: "Excel Data Cleaning" }
+    ],
+    projects: [
+      { name: "Taiwan Bankruptcy Prediction", when: "12/2025 – 01/2026", text: "Machine learning on Taiwan Economic Journal data (1999–2009) to predict corporate insolvency: EDA, feature engineering, class-imbalance handling, model development and business interpretation." }
+    ],
+    languages: [ { name: "English", level: "Professional" }, { name: "Setswana", level: "Fluent" } ],
+    referencesNote: "References available on request."
+  };
+</script>
+
+<!-- ═══ Core: rendering, GitHub, navigation, tracking (works without Anime.js) ═══ -->
+<script>
+(function(){
+  const C = window.PORTFOLIO_CONFIG, R = window.RESUME;
+  const $ = (s, el=document) => el.querySelector(s), $$ = (s, el=document) => [...el.querySelectorAll(s)];
+  const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const anim = (fn, ...a) => { try { window.AO_ANIM && window.AO_ANIM[fn] && window.AO_ANIM[fn](...a); } catch(e){} };
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  /* ── Contact details ── */
+  const email = $('#emailLink'); email.textContent = C.contactEmail; email.href = 'mailto:' + C.contactEmail;
+  const phone = $('#phoneLink'); phone.textContent = C.phone; phone.href = 'tel:' + C.phone.replace(/\s/g,'');
+  if (C.linkedinUrl) { const li = $('#linkedinLink'); li.href = C.linkedinUrl; li.hidden = false; }
+
+  /* ── Mobile nav ── */
+  const menuBtn = $('.menu-btn'), navList = $('#navList');
+  menuBtn.addEventListener('click', () => {
+    const open = navList.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded', String(open));
+    menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    menuBtn.innerHTML = open ? '<i class="fa-solid fa-xmark" aria-hidden="true"></i>' : '<i class="fa-solid fa-bars" aria-hidden="true"></i>';
+  });
+  $$('#navList a').forEach(a => a.addEventListener('click', () => { navList.classList.remove('open'); menuBtn.setAttribute('aria-expanded','false'); menuBtn.innerHTML='<i class="fa-solid fa-bars" aria-hidden="true"></i>'; }));
+
+  /* ── Active section in nav ── */
+  const navLinks = $$('#navList a');
+  const secObs = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
+  }), { rootMargin: '-35% 0px -60% 0px' });
+  $$('main section[id]').forEach(s => secObs.observe(s));
+
+  /* ── Projects: filter + expand ── */
+  const cards = $$('#projGrid .pc');
+  $$('[data-filter]').forEach(btn => btn.addEventListener('click', () => {
+    const f = btn.dataset.filter;
+    $$('[data-filter]').forEach(b => b.setAttribute('aria-pressed', String(b === btn)));
+    const shown = [];
+    cards.forEach(c => { const on = f === 'all' || c.dataset.category === f; c.classList.toggle('is-hidden', !on); if (on) shown.push(c); });
+    anim('pop', shown);
+    track('filter_projects', { label: f });
+  }));
+  cards.forEach(card => {
+    const p = $('.clamp', card); if (!p) return;
+    requestAnimationFrame(() => {
+      if (p.scrollHeight <= p.clientHeight + 2) return;
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'more'; b.setAttribute('aria-expanded','false');
+      b.innerHTML = 'Read more <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>';
+      b.addEventListener('click', () => {
+        const open = p.classList.toggle('open'); b.setAttribute('aria-expanded', String(open));
+        b.innerHTML = open ? 'Show less <i class="fa-solid fa-chevron-up" aria-hidden="true"></i>' : 'Read more <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>';
+        if (open) { anim('fadeIn', p); track('project_expand', { label: $('h3', card).textContent }); }
+      });
+      p.after(b);
+    });
+  });
+
+  /* ── Live résumé ── */
+  const fmtDate = d => new Date(d + 'T00:00:00').toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' });
+  $('#resumeUpdated').textContent = 'Last updated ' + fmtDate(R.updated);
+  $('#panel-exp').innerHTML = `<p class="summary">${esc(R.summary)}</p><div class="timeline">` +
+    R.experience.map(j => `<div class="job${j.current ? ' current' : ''}"><div class="job-head"><div><h4>${esc(j.role)}${j.current ? '<span class="badge">Current</span>' : ''}</h4><div class="org">${esc(j.org)} · ${esc(j.place)}</div></div><span class="when">${esc(j.when)}</span></div><ul>${j.points.map(p => `<li>${esc(p)}</li>`).join('')}</ul></div>`).join('') + '</div>';
+  $('#panel-skills').innerHTML = '<div class="skill-groups">' + Object.entries(R.skills).map(([g, list]) =>
+    `<div class="skill-group"><h4>${esc(g)}</h4><div class="tags">${list.map(s => `<span class="pill">${esc(s)}</span>`).join('')}</div></div>`).join('') + '</div>';
+  $('#panel-edu').innerHTML = `<div class="list-2"><div><div class="h4">Education</div>${R.education.map(e => `<div class="entry"><strong>${esc(e.name)}</strong><span>${esc(e.org)} · ${esc(e.when)}</span></div>`).join('')}<div class="entry"><span>Relevant coursework: ${esc(R.coursework)}</span></div></div>` +
+    `<div><div class="h4">Certifications</div>${R.certifications.map(c => `<div class="entry"><span class="st${c.done ? ' done' : ''}">${c.done ? esc(c.when) : 'In progress'}</span><strong>${esc(c.name)}</strong><span>${esc(c.org)}</span></div>`).join('')}</div></div>` +
+    `<div class="cert-strip">${R.certificateImages.map(ci => `<figure><a href="${encodeURI(ci.src)}" target="_blank" rel="noopener" data-track="certificate_open" data-label="${esc(ci.label)}"><img src="${encodeURI(ci.src)}" alt="${esc(ci.label)} certificate" loading="lazy" onerror="this.closest('figure').remove()"><figcaption>${esc(ci.label)}</figcaption></a></figure>`).join('')}</div>`;
+  $('#panel-proj').innerHTML = `<div class="list-2"><div><div class="h4">Projects</div>${R.projects.map(p => `<div class="entry"><strong>${esc(p.name)}</strong><span>${esc(p.when)}</span><p style="margin-top:6px;font-size:.92rem">${esc(p.text)}</p></div>`).join('')}</div>` +
+    `<div><div class="h4">Languages</div>${R.languages.map(l => `<div class="entry"><strong>${esc(l.name)}</strong><span>${esc(l.level)}</span></div>`).join('')}<div class="entry"><span>${esc(R.referencesNote)}</span></div></div></div>`;
+
+  const tabs = $$('#resumeTabs [role=tab]');
+  function selectTab(t, focus) {
+    tabs.forEach(x => { const on = x === t; x.setAttribute('aria-selected', String(on)); x.tabIndex = on ? 0 : -1; $('#' + x.getAttribute('aria-controls')).hidden = !on; });
+    if (focus) t.focus();
+    const panel = $('#' + t.getAttribute('aria-controls'));
+    anim('panel', panel);
+    track('resume_tab', { label: t.textContent.trim() });
+  }
+  tabs.forEach((t, i) => {
+    t.addEventListener('click', () => selectTab(t));
+    t.addEventListener('keydown', e => {
+      const k = e.key; let n = null;
+      if (k === 'ArrowRight') n = tabs[(i + 1) % tabs.length]; if (k === 'ArrowLeft') n = tabs[(i - 1 + tabs.length) % tabs.length];
+      if (k === 'Home') n = tabs[0]; if (k === 'End') n = tabs[tabs.length - 1];
+      if (n) { e.preventDefault(); selectTab(n, true); }
+    });
+  });
+
+  /* ── Live GitHub ── */
+  const LANG = { HTML:'#e34c26', JavaScript:'#d4b20a', TypeScript:'#3178c6', Python:'#3572A5', CSS:'#563d7c', 'Jupyter Notebook':'#DA5B0B', PowerShell:'#012456', SQL:'#e38c00', TSQL:'#e38c00', Shell:'#89e051', DAX:'#f2c811' };
+  const ago = iso => { const s = (Date.now() - new Date(iso)) / 1000; const u = [[31536000,'year'],[2592000,'month'],[604800,'week'],[86400,'day'],[3600,'hour'],[60,'minute']];
+    for (const [n, w] of u) if (s >= n) { const v = Math.floor(s / n); return `${v} ${w}${v > 1 ? 's' : ''} ago`; } return 'just now'; };
+  const SNAPSHOT = { // shown only if GitHub can't be reached (rate limit / offline); captured 13 Nov 2026
+    user: { name: 'Aobakwe Olatotse', login: 'aaolatotse1-art', bio: '🎯 Focusing', location: 'Gaborone', public_repos: 2, followers: null, avatar_url: 'https://github.com/aaolatotse1-art.png?size=128', html_url: 'https://github.com/aaolatotse1-art' },
+    repos: [ { name: 'fuel-variance-audit', description: 'Single-file HTML tool for auditing fuel variances.', language: 'HTML', stargazers_count: 0, forks_count: 0, html_url: 'https://github.com/aaolatotse1-art/fuel-variance-audit', homepage: '', pushed_at: null, fork: false } ],
+    events: []
+  };
+  async function gh(path) {
+    const key = 'gh:' + path, hit = sessionStorage.getItem(key);
+    if (hit) { const { t, d } = JSON.parse(hit); if (Date.now() - t < 10 * 60 * 1000) return d; }
+    const r = await fetch('https://api.github.com' + path, { headers: { Accept: 'application/vnd.github+json' } });
+    if (!r.ok) throw new Error('GitHub ' + r.status);
+    const d = await r.json(); try { sessionStorage.setItem(key, JSON.stringify({ t: Date.now(), d })); } catch(e) {}
+    return d;
+  }
+  function renderGitHub(user, repos, events, live) {
+    $('#ghName').textContent = user.name || user.login;
+    $('#ghBio').textContent = ['@' + user.login, user.bio, user.location].filter(Boolean).join(' · ');
+    const av = $('#ghAvatar'); if (user.avatar_url && av) av.src = user.avatar_url;
+    const visible = repos.filter(r => !r.fork && !(C.githubHideRepos || []).includes(r.name));
+    const stars = repos.reduce((n, r) => n + (r.stargazers_count || 0), 0);
+    anim('count', $('#ghRepos'), user.public_repos ?? visible.length);
+    if (user.followers == null) $('#ghFollowers').textContent = '—'; else anim('count', $('#ghFollowers'), user.followers);
+    anim('count', $('#ghStars'), stars);
+    if (!window.AO_ANIM) { $('#ghRepos').textContent = user.public_repos ?? visible.length; $('#ghFollowers').textContent = user.followers ?? '—'; $('#ghStars').textContent = stars; }
+
+    const grid = $('#repoGrid');
+    grid.innerHTML = visible.length ? visible.map(r => `
+      <a class="repo card gcard tc" href="${esc(r.html_url)}" target="_blank" rel="noopener" data-track="github_click" data-label="${esc(r.name)}">
+        <h3><i class="fa-regular fa-folder" aria-hidden="true"></i>${esc(r.name)}</h3>
+        <p>${esc(r.description || 'No description yet.')}</p>
+        <div class="repo-foot">
+          ${r.language ? `<span><span class="lang-dot" style="background:${LANG[r.language] || '#8a8880'}"></span>${esc(r.language)}</span>` : ''}
+          <span><i class="fa-regular fa-star" aria-hidden="true"></i> ${r.stargazers_count || 0}</span>
+          ${r.pushed_at ? `<span>Updated ${ago(r.pushed_at)}</span>` : ''}
+          ${r.homepage ? `<span><i class="fa-solid fa-globe" aria-hidden="true"></i> Live demo</span>` : ''}
+        </div>
+      </a>`).join('') : '<div class="repo card gcard tc"><p>No public repositories yet.</p></div>';
+    anim('pop', $$('.repo', grid));
+
+    const items = (events || []).filter(e => ['PushEvent','CreateEvent','PublicEvent','ReleaseEvent','WatchEvent','PullRequestEvent'].includes(e.type)).slice(0, 6).map(e => {
+      const repo = e.repo.name.replace(user.login + '/', '');
+      let what = 'Updated';
+      if (e.type === 'PushEvent') { const n = e.payload.size || (e.payload.commits || []).length; what = n ? `Pushed ${n} commit${n > 1 ? 's' : ''} to` : 'Pushed to'; }
+      else if (e.type === 'CreateEvent') what = e.payload.ref_type === 'repository' ? 'Created repository' : `Created ${e.payload.ref_type} in`;
+      else if (e.type === 'PublicEvent') what = 'Made public';
+      else if (e.type === 'ReleaseEvent') what = 'Published a release in';
+      else if (e.type === 'WatchEvent') what = 'Starred';
+      else if (e.type === 'PullRequestEvent') what = `${e.payload.action === 'closed' ? 'Closed' : 'Opened'} a pull request in`;
+      return `<li>${esc(what)} <strong>${esc(repo)}</strong><time datetime="${esc(e.created_at)}">${ago(e.created_at)}</time></li>`;
+    });
+    $('#ghActivity').innerHTML = items.length ? items.join('') : `<li>${live ? 'No public activity in the last 90 days.' : 'Activity is shown when GitHub is reachable.'}</li>`;
+
+    const st = $('#ghStatus');
+    st.classList.toggle('cached', !live);
+    st.innerHTML = live ? `<span class="dot"></span> Live from GitHub · fetched ${new Date().toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' })}`
+                        : `<span class="dot"></span> GitHub couldn't be reached (rate limit or offline) — showing a saved snapshot.`;
+  }
+  (async function loadGitHub() {
+    const u = C.githubUsername;
+    try {
+      const [user, repos, events] = await Promise.all([
+        gh(`/users/${u}`), gh(`/users/${u}/repos?per_page=100&sort=pushed`), gh(`/users/${u}/events/public?per_page=30`).catch(() => [])
+      ]);
+      repos.sort((a, b) => (b.stargazers_count - a.stargazers_count) || (new Date(b.pushed_at) - new Date(a.pushed_at)));
+      renderGitHub(user, repos, events, true);
+    } catch (e) {
+      renderGitHub(SNAPSHOT.user, SNAPSHOT.repos, SNAPSHOT.events, false);
+    }
+  })();
+
+  /* ── Contact form (mailto hand-off) ── */
+  $('#contactForm').addEventListener('submit', e => {
+    e.preventDefault(); const f = e.currentTarget, st = $('#formStatus');
+    const bad = $$('input,textarea', f).find(el => !el.checkValidity());
+    if (bad) { st.textContent = bad.name === 'email' ? 'Please enter a valid email address.' : 'Please fill in your ' + bad.name + '.'; bad.focus(); return; }
+    const d = new FormData(f);
+    track('contact_submit', { label: 'mailto' });
+    st.textContent = 'Opening your email app…';
+    location.href = 'mailto:' + C.contactEmail + '?subject=' + encodeURIComponent('Portfolio enquiry from ' + d.get('name')) +
+      '&body=' + encodeURIComponent('Name: ' + d.get('name') + '\nEmail: ' + d.get('email') + '\n\n' + d.get('message'));
+  });
+
+  /* ═══ Anonymous visit tracking → Supabase (insert-only; reads need the owner's login) ═══ */
+  const optedOut = navigator.globalPrivacyControl === true || navigator.doNotTrack === '1' || window.doNotTrack === '1' || localStorage.getItem('ao_owner') === '1';
+  const enabled = !!(C.supabaseUrl && C.supabaseAnonKey) && !optedOut;
+  const uuid = () => (crypto.randomUUID ? crypto.randomUUID() : 'x'.repeat(32).replace(/x/g, () => (Math.random() * 16 | 0).toString(16)));
+  let visitorId = null, sessionId = null, isNew = false;
+  try {
+    visitorId = localStorage.getItem('ao_vid'); if (!visitorId) { visitorId = uuid(); localStorage.setItem('ao_vid', visitorId); isNew = true; }
+    const s = JSON.parse(sessionStorage.getItem('ao_sid') || 'null');
+    if (s && Date.now() - s.t < 30 * 60 * 1000) sessionId = s.id; else sessionId = uuid();
+    sessionStorage.setItem('ao_sid', JSON.stringify({ id: sessionId, t: Date.now() }));
+  } catch (e) { visitorId = visitorId || uuid(); sessionId = sessionId || uuid(); }
+
+  const ua = navigator.userAgent;
+  const device = /iPad|Tablet/i.test(ua) ? 'Tablet' : /Mobi|Android|iPhone/i.test(ua) ? 'Mobile' : 'Desktop';
+  const browser = /Edg\//.test(ua) ? 'Edge' : /OPR\//.test(ua) ? 'Opera' : /SamsungBrowser/.test(ua) ? 'Samsung Internet' : /Chrome\//.test(ua) ? 'Chrome' : /Firefox\//.test(ua) ? 'Firefox' : /Safari\//.test(ua) ? 'Safari' : 'Other';
+  const os = /Windows/.test(ua) ? 'Windows' : /iPhone|iPad|iPod/.test(ua) ? 'iOS' : /Mac OS X/.test(ua) ? 'macOS' : /Android/.test(ua) ? 'Android' : /Linux/.test(ua) ? 'Linux' : 'Other';
+  const qs = new URLSearchParams(location.search);
+  const ref = document.referrer && !document.referrer.startsWith(location.origin) ? new URL(document.referrer).hostname : '';
+  const base = {
+    visitor_id: visitorId, session_id: sessionId, path: location.pathname, referrer: ref.slice(0, 200),
+    utm_source: (qs.get('utm_source') || '').slice(0, 100), utm_campaign: (qs.get('utm_campaign') || '').slice(0, 100),
+    device, browser, os, screen: `${screen.width}x${screen.height}`, language: (navigator.language || '').slice(0, 20),
+    timezone: (Intl.DateTimeFormat().resolvedOptions().timeZone || '').slice(0, 60)
+  };
+  const headers = { 'Content-Type': 'application/json', apikey: C.supabaseAnonKey, Prefer: 'return=minimal' };
+  if (C.supabaseAnonKey && !C.supabaseAnonKey.startsWith('sb_publishable_')) headers.Authorization = 'Bearer ' + C.supabaseAnonKey;
+  function track(type, extra = {}) {
+    if (!enabled) return;
+    const body = JSON.stringify({ ...base, event_type: type, section: (extra.section || '').slice(0, 60), label: (extra.label || '').slice(0, 120), value: extra.value ?? null, is_new_visitor: type === 'pageview' ? isNew : null });
+    try { fetch(C.supabaseUrl.replace(/\/$/, '') + '/rest/v1/site_events', { method: 'POST', headers, body, keepalive: true }).catch(() => {}); } catch (e) {}
+  }
+  window.AO_TRACK = track;
+  track('pageview');
+
+  // Section views (once per page load, when at least 40% is on screen)
+  const seen = new Set();
+  const viewObs = new IntersectionObserver(es => es.forEach(e => {
+    const id = e.target.dataset.section;
+    if (e.isIntersecting && !seen.has(id)) { seen.add(id); track('section_view', { section: id }); }
+  }), { threshold: .4 });
+  $$('[data-section]').forEach(s => viewObs.observe(s));
+
+  // Clicks on tracked links (delegated so GitHub cards rendered later are included)
+  document.addEventListener('click', e => {
+    const a = e.target.closest('[data-track]'); if (!a) return;
+    track(a.dataset.track, { label: a.dataset.label || a.textContent.trim().slice(0, 80), section: a.closest('[data-section]')?.dataset.section });
+  });
+  $$('video[data-track-video]').forEach(v => v.addEventListener('play', () => track('video_play', { label: v.dataset.trackVideo }), { once: true }));
+
+  // Engaged time: count only while the tab is visible; send when the visitor leaves
+  let engaged = 0, last = document.visibilityState === 'visible' ? Date.now() : null, sent = false;
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') { if (last) engaged += Date.now() - last; last = null;
+      if (!sent && engaged > 1000) { sent = true; track('page_leave', { value: Math.round(engaged / 1000) }); } }
+    else { last = Date.now(); sent = false; engaged = 0; }
+  });
+})();
+</script>
+
+<!-- ═══ Motion layer: Anime.js v4 ═══ -->
+<script type="module">
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let A;
+  try { A = await import('https://cdn.jsdelivr.net/npm/animejs@4.5.0/dist/bundles/anime.esm.min.js'); }
+  catch (e) { document.documentElement.classList.remove('motion'); }
+
+  if (A && !reduce) {
+    const { animate, stagger, createTimeline, splitText } = A;
+    window.__AO_ANIM_READY = true;
+    const ease = 'outExpo';
+
+    // Hero: words rise out of their line masks, then supporting content
+    const title = document.querySelector('.hero-title');
+    const split = splitText(title, { words: { wrap: 'clip' } });
+    title.style.visibility = 'visible';
+    const tl = createTimeline({ defaults: { ease } });
+    tl.add(split.words, { y: ['110%', '0%'], duration: 1100, delay: stagger(90) })
+      .add('#hero .status', { opacity: [0, 1], y: [12, 0], duration: 700 }, 150)
+      .add('#hero .lead, #hero .hero-actions', { opacity: [0, 1], y: [18, 0], duration: 900, delay: stagger(120) }, 450)
+      .add('#hero .profile', { opacity: [0, 1], y: [30, 0], scale: [.97, 1], duration: 1100 }, 350)
+      .add('#hero .bar .base', { width: { from: '0%' }, duration: 900, delay: stagger(140) }, 700)
+      .add('#hero .bar .fill', { width: { from: '0%' }, duration: 1400, delay: stagger(140), ease: 'outQuart' }, 800);
+    document.querySelectorAll('#hero [data-count]').forEach((el, i) => {
+      const o = { v: 0 }; el.textContent = 0; animate(o, { v: +el.dataset.count, duration: 1500, delay: 850 + i * 140, ease: 'outQuart', onUpdate: () => el.textContent = Math.round(o.v) });
+    });
+
+    // Scroll reveals, staggered per group
+    const io = new IntersectionObserver(entries => {
+      const batch = entries.filter(e => e.isIntersecting).map(e => e.target).filter(el => !el.closest('#hero'));
+      batch.forEach(el => io.unobserve(el));
+      if (batch.length) animate(batch, { opacity: [0, 1], y: [28, 0], duration: 900, delay: stagger(80), ease });
+    }, { threshold: .12, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.rev').forEach(el => io.observe(el));
+
+    // Résumé timeline draws when first seen
+    let drawn = false;
+    const tlObs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting && !drawn) { drawn = true; window.AO_ANIM.panel(document.getElementById('panel-exp')); } }), { threshold: .2 });
+    tlObs.observe(document.getElementById('panel-exp'));
+
+    window.AO_ANIM = {
+      pop(nodes) { if (nodes.length) animate(nodes, { opacity: [0, 1], scale: [.96, 1], y: [14, 0], duration: 650, delay: stagger(55), ease }); },
+      fadeIn(el) { animate(el, { opacity: [.3, 1], duration: 500, ease: 'outQuad' }); },
+      count(el, to) { const o = { v: 0 }; el.textContent = 0; animate(o, { v: to, duration: 1200, ease: 'outQuart', onUpdate: () => el.textContent = Math.round(o.v) }); },
+      panel(panel) {
+        const items = panel.querySelectorAll('.job, .skill-group, .entry, .cert-strip figure, .summary');
+        animate(items, { opacity: [0, 1], x: [-14, 0], duration: 700, delay: stagger(60), ease });
+      }
+    };
+    // If GitHub rendered before Anime.js loaded, animate what's there
+    const repos = document.querySelectorAll('#repoGrid .repo'); if (repos.length) window.AO_ANIM.pop([...repos]);
+  } else {
+    document.documentElement.classList.remove('motion');
+  }
+</script>
+</body>
+</html>
