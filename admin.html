@@ -305,7 +305,13 @@ if (!configured) {
     btn.disabled = true; msg.textContent = 'Sending…';
     const { error } = await sb.auth.signInWithOtp({ email, options: { shouldCreateUser: false, emailRedirectTo: location.origin + location.pathname } });
     btn.disabled = false;
-    if (error) { msg.textContent = /signups|not found|Signups/i.test(error.message) ? 'That email has no access to this dashboard.' : 'Could not send the link: ' + error.message; msg.classList.add('err'); }
+    if (error) {
+      const code = error.code || '', m = error.message || '';
+      msg.textContent = /signup_disabled|Signups not allowed/i.test(code + m) ? 'This email isn\u2019t an active account yet. Accept the Supabase invitation email first, or confirm the user in Supabase → Authentication → Users.'
+        : /rate limit|over_email_send_rate_limit/i.test(code + m) ? 'Too many sign-in emails were sent recently. Wait a few minutes and try again.'
+        : 'Could not send the link: ' + m;
+      msg.classList.add('err');
+    }
     else msg.textContent = 'Check your inbox — the link signs you in on this browser.';
   });
 }
